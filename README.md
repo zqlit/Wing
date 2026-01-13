@@ -18,7 +18,7 @@ Features:
 
 ## 😍 Show Demo
 
-![img.png](src\assets\Wing.png)
+![img.png](src/assets/Wing.png)
 
 ## 🚀 Project Structure
 
