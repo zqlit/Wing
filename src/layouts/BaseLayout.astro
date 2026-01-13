@@ -1,0 +1,34 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Header from "../components/Header.astro";
+
+interface Slots {
+  default: any;
+}
+
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<html lang="ZH-CN">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <div class="container w-full">
+      <div class="mian mx-auto max-w-3xl p-4">
+        <Header />
+        <section>
+           <slot></slot>
+        </section>
+        <Footer />
+      </div>
+    </div>
+  </body>
+</html>
