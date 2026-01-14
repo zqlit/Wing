@@ -18,9 +18,23 @@ export default defineConfig({
   
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      // 强制别名：把无法解析的 ../pkg 指向一个空模块，避免解析失败
+      alias: [
+        { find: /^\.\.\/pkg$/, replacement: () => null }
+      ]
+    },
+    optimizeDeps: {
+      // 排除 ../pkg 模块，不让Vite去预构建它
+      exclude: ['../pkg']
+    },
     build: {
       rollupOptions: {
         external: ['fsevents']
+      },
+      // 关键：对Deno兼容，禁止Vite将该模块识别为commonjs-external
+      commonjsOptions: {
+        ignore: ['../pkg']
       }
     }
   },
