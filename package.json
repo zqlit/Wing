@@ -5,21 +5,23 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs",
+    "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "astro": "^5.16.9",
+
+    "@astrojs/vercel": "^9.0.3",
     "@astrojs/mdx": "^4.3.13",
-    "@astrojs/node": "^9.5.1",
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.1",
+
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.16.9",
     "sharp": "^0.34.3"
   },
   "devDependencies": {
+    "tailwindcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
-    "autoprefixer": "^10.4.23",
-    "tailwindcss": "^4.1.18"
+    "autoprefixer": "^10.4.23"
   }
 }
