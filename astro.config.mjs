@@ -17,7 +17,12 @@ export default defineConfig({
 
     resolve: {
       alias: {
-        util: "node:util", 
+        util: "node:util",
+        stream: "node:stream",
+        fs: "node:fs",
+        path: "node:path",
+        crypto: "node:crypto",
+        buffer: "node:buffer",
       },
     },
 
