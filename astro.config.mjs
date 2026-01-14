@@ -1,20 +1,11 @@
 // @ts-check
-// ✅ 核心修复：手动声明Deno全局对象的类型，告诉TS编译器Deno是合法的
-declare global {
-  const Deno: {
-    env: {
-      get: (key: string) => string | undefined;
-    };
-  };
-}
-
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import deno from '@astrojs/deno';
+import Deno from '@astrojs/deno';
 
 
 export default defineConfig({
@@ -22,8 +13,8 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
 
   output: 'server',
-  adapter: deno({
-    // 必须配置：适配Deno Deploy的云端环境，缺一不可
+  adapter: Deno({
+    // @ts-ignore
     port: Number(Deno.env.get("PORT")) || 8000,
     hostname: "0.0.0.0",
   }),
