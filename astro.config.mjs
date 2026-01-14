@@ -15,30 +15,27 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
 
-    // SSR 构建只 external Node 内置模块
+    // ⚠️ SSR 构建阶段 external Node 内置模块
     ssr: {
       external: [
-        "node:stream",
-        "node:util",
-        "node:fs",
-        "node:path",
-        "node:crypto",
-        "node:buffer",
         "stream",
         "util",
         "fs",
         "path",
         "crypto",
         "buffer",
+        "node:stream",
+        "node:util",
+        "node:fs",
+        "node:path",
+        "node:crypto",
+        "node:buffer",
       ],
     },
 
-    // ❌ 删除 ../pkg 相关内容
-    // optimizeDeps.exclude ❌
-    // rollupOptions.external 里的 ../pkg ❌
-
     build: {
       rollupOptions: {
+        // fsevents 可以保持 external
         external: ["fsevents"],
       },
     },
