@@ -1,23 +1,26 @@
 // @ts-check
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
-// ⚡ 静态输出版本（推荐最稳）
 export default defineConfig({
   site: "http://localhost:4321/",
-  integrations: [mdx(), sitemap()],
 
-  output: "static", // 完全静态 HTML，免疫 Node SSR 问题
+  integrations: [
+    sitemap(),
+  ],
+
+  // ✅ 关键：不声明 output，不用 adapter
+  // Astro 默认就是 static
 
   vite: {
     plugins: [tailwindcss()],
 
-    build: {
-      rollupOptions: {
-        external: ["fsevents"], // harmless external
-      },
+    // ✅ 只 exclude 真实存在、官方声明的 native 包
+    optimizeDeps: {
+      exclude: [
+        "@resvg/resvg-js",
+      ],
     },
   },
 });
