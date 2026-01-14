@@ -6,21 +6,19 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: "http://localhost:4321/",
 
-  integrations: [
-    sitemap(),
-  ],
+  integrations: [sitemap()],
 
-  // ✅ 关键：不声明 output，不用 adapter
-  // Astro 默认就是 static
+  // 静态站点（不走 SSR）
+  output: "static",
 
   vite: {
     plugins: [tailwindcss()],
 
-    // ✅ 只 exclude 真实存在、官方声明的 native 包
-    optimizeDeps: {
-      exclude: [
-        "@resvg/resvg-js",
-      ],
+    build: {
+      rollupOptions: {
+        // ⭐ 关键：macOS-only 依赖
+        external: ["fsevents"],
+      },
     },
   },
 });
