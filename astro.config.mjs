@@ -15,15 +15,22 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
 
-    resolve: {
-      alias: {
-        util: "node:util",
-        stream: "node:stream",
-        fs: "node:fs",
-        path: "node:path",
-        crypto: "node:crypto",
-        buffer: "node:buffer",
-      },
+    // ⚠️ SSR 核心配置（关键）
+    ssr: {
+      external: [
+        "node:stream",
+        "node:util",
+        "node:fs",
+        "node:path",
+        "node:crypto",
+        "node:buffer",
+        "stream",
+        "util",
+        "fs",
+        "path",
+        "crypto",
+        "buffer",
+      ],
     },
 
     optimizeDeps: {
@@ -32,7 +39,7 @@ export default defineConfig({
 
     build: {
       rollupOptions: {
-        external: ["fsevents", /^\.\.\/pkg$/],
+        external: ["fsevents"],
       },
     },
   },
