@@ -14,13 +14,19 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
 
   output: 'server',
-  adapter: deno(),
+  adapter: deno({
+    // 必须配置：适配Deno Deploy的云端环境，缺一不可
+    // @ts-ignore
+    port: Number(deno.env.get("PORT")) || 8000,
+    hostname: "0.0.0.0",
+  }),
   
   vite: {
     plugins: [tailwindcss()],
     resolve: {
       // 强制别名：把无法解析的 ../pkg 指向一个空模块，避免解析失败
       alias: [
+        // @ts-ignore
         { find: /^\.\.\/pkg$/, replacement: () => null }
       ]
     },
