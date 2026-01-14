@@ -15,7 +15,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
 
-    // ⚠️ SSR 核心配置（关键）
+    // SSR 构建只 external Node 内置模块
     ssr: {
       external: [
         "node:stream",
@@ -33,9 +33,9 @@ export default defineConfig({
       ],
     },
 
-    optimizeDeps: {
-      exclude: ["../pkg"],
-    },
+    // ❌ 删除 ../pkg 相关内容
+    // optimizeDeps.exclude ❌
+    // rollupOptions.external 里的 ../pkg ❌
 
     build: {
       rollupOptions: {
