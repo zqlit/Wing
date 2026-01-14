@@ -12,12 +12,12 @@
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.1",
-    "@deno/astro-adapter": "^0.3.2",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.9",
     "sharp": "^0.34.3"
   },
   "devDependencies": {
+    "@astrojs/deno": "^5.0.1",
     "@tailwindcss/typography": "^0.5.19",
     "autoprefixer": "^10.4.23",
     "tailwindcss": "^4.1.18"
