@@ -1,18 +1,14 @@
-import { defineConfig } from "astro/config";
+// @ts-check
+
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from "@tailwindcss/vite";
-import sitemap from "@astrojs/sitemap";
-import vercel from "@astrojs/vercel/serverless";
+import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  output: "server",
-  adapter: vercel(),
-
-  integrations: [sitemap()],
-
+  site: 'https://example.com',
+	integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
-    ssr: {
-      noExternal: false
-    }
-  }
+  },
 });
