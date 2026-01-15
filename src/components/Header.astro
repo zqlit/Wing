@@ -1,17 +1,14 @@
 ---
-import { SITE_TITLE,AVATAR_URL } from "../config";
+import { SITE_TITLE, AVATAR_URL } from "../config";
 import HeaderLink from "./HeaderLink.astro";
-import defineConfig from "../../astro.config.mjs";
 ---
 
 <header>
   <nav>
     <div class="nav-container flex items-center justify-between">
       <div class="avatar">
-		<a href={defineConfig.site}>
-		<img src={AVATAR_URL} class="w-11 rounded-md">
-		</a>
-	  </div>
+          <img src={AVATAR_URL} id="theme-toggle" class="w-11 rounded-md cursor-pointer" />
+      </div>
       <div class="internal-links space-x-5">
         <HeaderLink href="/">Home</HeaderLink>
         <HeaderLink href="/blog">Blog</HeaderLink>
@@ -20,3 +17,14 @@ import defineConfig from "../../astro.config.mjs";
     </div>
   </nav>
 </header>
+
+<script is:inline>
+  const getTheme = () => localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const html = document.documentElement;
+  html.classList.toggle('dark', getTheme() === 'dark');
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const isDark = html.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+</script>

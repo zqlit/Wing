@@ -1,31 +1,27 @@
 ---
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
+import { SITE_TITLE, AVATAR_URL } from "../config";
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
-import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
-
-interface Slots {
-  default: any;
-}
-
-type Props = CollectionEntry<"blog">["data"];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<html lang="ZH-CN">
+<html lang="ZH-CN" class="transition-colors duration-600 ease-in-out min-h-screen">
   <head>
     <BaseHead title={title} description={description} />
   </head>
-
+ <style is:global>
+      html { background-color: white; color: rgb(15 23 42); }
+      html.dark { background-color: rgb(3 7 18); color: rgb(248 250 252); }
+      body { margin: 0; padding: 0; }
+    </style>
   <body>
     <div class="container w-full">
-      <div class="mian mx-auto max-w-3xl p-4">
+      <div class="main mx-auto max-w-3xl p-4">
         <Header />
         <section>
-           <slot></slot>
+          <slot></slot>
         </section>
         <Footer />
       </div>
