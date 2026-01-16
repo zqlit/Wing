@@ -7,8 +7,20 @@ import Header from "../components/Header.astro";
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<html lang="ZH-CN" class="transition-colors duration-600 ease-in-out min-h-screen">
+<html
+  lang="ZH-CN"
+  class="transition-colors duration-600 ease-in-out min-h-screen"
+>
   <head>
+    <script is:inline>
+      // 适配暗黑模式防止闪烁
+      const t =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      document.documentElement.classList.toggle("dark", t === "dark");
+    </script>
     <BaseHead title={title} description={description} />
   </head>
   <body class="dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800">
@@ -16,7 +28,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       <div class="main mx-auto max-w-3xl p-4">
         <Header />
         <section>
-          <slot></slot>
+          <slot />
         </section>
         <Footer />
       </div>
