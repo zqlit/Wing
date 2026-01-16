@@ -8,22 +8,31 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 <html
-  lang="ZH-CN"
+  lang="zh-CN"
   class="transition-colors duration-600 ease-in-out min-h-screen"
 >
   <head>
     <script is:inline>
-      // 适配暗黑模式防止闪烁
-      const t =
-        localStorage.getItem("theme") ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
-      document.documentElement.classList.toggle("dark", t === "dark");
+      const savedTheme = localStorage.getItem('theme');
+      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = savedTheme ? savedTheme === 'dark' : isSystemDark;
+      if(isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      // 监听astro:after-swap，解决路由跳转二次闪屏
+      document.addEventListener('astro:after-swap', () => {
+        const savedTheme = localStorage.getItem('theme');
+        const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedTheme ? savedTheme === 'dark' : isSystemDark;
+        isDark ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
+      });
     </script>
     <BaseHead title={title} description={description} />
   </head>
-  <body class="dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800">
+
+  <body class="bg-white text-slate-900 border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800">
     <div class="container w-full">
       <div class="main mx-auto max-w-3xl p-4">
         <Header />

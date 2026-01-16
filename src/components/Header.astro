@@ -23,17 +23,35 @@ import HeaderLink from "./HeaderLink.astro";
 </header>
 
 <script is:inline>
-  document.addEventListener("astro:page-load", () => {
-    const getTheme = () =>
-      localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light");
-    const html = document.documentElement;
-    html.classList.toggle("dark", getTheme() === "dark");
-    document.getElementById("theme-toggle")?.addEventListener("click", () => {
-      const isDark = html.classList.toggle("dark");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    });
+  const html = document.documentElement;
+  // 获取当前主题状态函数
+  const getIsDark = () => {
+    const savedTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return savedTheme ? savedTheme === 'dark' : systemDark;
+  };
+
+  // 主题初始化函数
+  const initTheme = () => {
+    const isDark = getIsDark();
+    html.classList[isDark ? 'add' : 'remove']('dark');
+  };
+
+  // 主题切换核心逻辑，点击一次执行一次
+  const toggleTheme = () => {
+    const isDark = html.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  };
+
+  // astro:after-swap 路由跳转立即执行，无闪屏无延迟
+  document.addEventListener('astro:after-swap', () => {
+    initTheme();
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle?.removeEventListener('click', toggleTheme);
+    themeToggle?.addEventListener('click', toggleTheme);
   });
+
+  // 首次加载立即执行一次，进入网站就生效
+  initTheme();
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
 </script>
