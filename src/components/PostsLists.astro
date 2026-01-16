@@ -12,7 +12,7 @@ const posts = (await getCollection("blog")).sort(
 
 {
   posts.map((post) => (
-    <li class="list-none pb-3 border-b border-b-gray-200 dark:border-b-gray-700">
+    <li class="list-none pb-3 border-b border-b-gray-200 dark:border-b-slate-800">
       <a href={`/blog/${post.id}/`} class=" block ">
         <h4 class="title font-bold text-2xl underline decoration-dotted decoration-2 underline-offset-2 pt-8 pb-3">{post.data.title}</h4>
         <p class="date text-sm text-gray-500">
