@@ -21,37 +21,24 @@ const posts = allPosts.slice(start, start + POSTS_PER_PAGE);
   <main>
     <PostsLists posts={posts} />
     
-    {/* 分页导航 */}
-    <div class="flex items-center justify-center gap-1 mt-12 py-6">
-      {currentPage > 1 && (
-        <a href="/" class="px-2 py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition">
-          <i class="ri-arrow-left-s-line text-xl"></i>
-        </a>
-      )}
-      
-      <div class="flex gap-1 mx-2">
-        {Array.from({ length: totalPages }, (_, i) => {
-          const pageNum = i + 1;
-          return (
-            <a
-              href={pageNum === 1 ? '/' : `/page/${pageNum}`}
-              class={`px-3 py-1 transition ${
-                pageNum === currentPage
-                  ? 'text-gray-900 dark:text-gray-100 border-b-2 border-gray-900 dark:border-gray-100'
-                  : 'text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100'
-              }`}
-            >
-              {pageNum}
-            </a>
-          );
-        })}
-      </div>
-      
-      {currentPage < totalPages && (
-        <a href={`/page/${currentPage + 1}`} class="px-2 py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition">
-          <i class="ri-arrow-right-s-line text-xl"></i>
-        </a>
-      )}
+    {/* 分页导航（圆形按钮，简约） */}
+    <div class="flex items-center justify-center gap-2 mt-12 py-6">
+      {Array.from({ length: totalPages }, (_, i) => {
+        const pageNum = i + 1;
+        const active = pageNum === currentPage;
+        return (
+          <a
+            href={pageNum === 1 ? '/' : `/page/${pageNum}`}
+            class={`w-8 h-8 rounded-full flex items-center justify-center text-xs transition border ${
+              active
+                ? 'bg-gray-900 text-white border-gray-900 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-100'
+                : 'border-gray-300 text-gray-500 hover:border-gray-500 hover:text-gray-900 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-500 dark:hover:text-gray-100'
+            }`}
+          >
+            {pageNum}
+          </a>
+        );
+      })}
     </div>
   </main>
 </BaseLayout>
