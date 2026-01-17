@@ -1,7 +1,5 @@
 ---
 const { title, slug, pubDate, readingTime, author } = Astro.props;
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
 import BaseLayout from "./BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import { formatISODate } from "../utils/dataFormatte";
@@ -15,7 +13,7 @@ import Comment from "../components/comment.astro";
   </h1>
 
   <div
-    class="flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-4"
+    class="flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-4 py-4"
   >
     <span transition:name={`post-date-${slug}`}>
       <span>写于 · </span>
@@ -25,8 +23,17 @@ import Comment from "../components/comment.astro";
     </span>
   </div>
 
-  <!-- 正文 -->
-  <div class="prose dark:prose-invert">
+  <div
+    class="py-2 space-y-6 prose prose-neutral dark:prose-invert max-w-none
+ prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto
+ prose-a:text-sky-500 dark:prose-a:text-sky-400 prose-a:underline-offset-4 hover:prose-a:text-sky-600 dark:hover:prose-a:text-sky-300
+ prose-headings:font-semibold prose-headings:mb-4 prose-headings:mt-9
+ prose-p:leading-relaxed prose-p:mb-5
+ prose-ul:mb-5 prose-ul:leading-relaxed prose-ol:mb-5 prose-ol:leading-relaxed
+ prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:border-neutral-300 dark:prose-blockquote:border-neutral-700 prose-blockquote:p-3 prose-blockquote:rounded-lg prose-blockquote:my-5
+ prose-code:bg-neutral-100 dark:prose-code:bg-neutral-800 prose-code:p-1 prose-code:rounded prose-code:text-sm
+ prose-pre:p-4 prose-pre:rounded-lg prose-pre:bg-neutral-900 dark:prose-pre:bg-neutral-800"
+  >
     <slot />
   </div>
 

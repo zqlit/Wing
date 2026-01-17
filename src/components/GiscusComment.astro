@@ -6,8 +6,7 @@ const { path } = Astro.props;
 import { GISCUS_CONFIG } from "../config";
 ---
 
-<!-- ✅ 新增：和Artalk统一的铃铛ICON按钮 + 容器 -->
-<div class="text-center">
+<div class="text-center mt-8"> <!-- 新增mt-8，和文章正文完美间距，彻底解决贴边问题 -->
   <button id="LoadGiscusButton" class="inline-flex items-center gap-1 cursor-pointer text-sm px-2.5 py-1 border border-neutral-200 rounded-lg bg-neutral-200/30 transition-all duration-300 ease-in-out active:scale-90 dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-200/60 dark:hover:bg-neutral-700/60">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
       <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
@@ -17,10 +16,10 @@ import { GISCUS_CONFIG } from "../config";
   <div id="giscus-container" class="mt-4"></div>
 </div>
 
-<script type="module" is:inline>
+<script is:inline> <!-- 修复点1：去掉 type="module" -->
   const config = {
     containerId: "giscus-container",
-    buttonId: "LoadGiscusButton", // ✅ 新增按钮ID配置
+    buttonId: "LoadGiscusButton",
     repo: ${JSON.stringify(GISCUS_CONFIG.repo)},
     repoId: ${JSON.stringify(GISCUS_CONFIG.repoId)},
     category: ${JSON.stringify(GISCUS_CONFIG.category)},
@@ -31,42 +30,37 @@ import { GISCUS_CONFIG } from "../config";
     lang: ${JSON.stringify(GISCUS_CONFIG.lang)}
   };
 
-  let isLoading = false; // ✅ 新增：防重复点击锁
+  let isLoading = false;
 
-  export function initGiscus() {
+  // 修复点2：去掉 export 关键字
+  function initGiscus() {
     const el = document.getElementById(config.containerId);
     const btn = document.getElementById(config.buttonId);
     if (!el || !btn) return;
 
-    // ✅ 新增：路由切换时重置按钮状态
     btn.style.opacity = '1';
     btn.style.transform = 'scale(1)';
     btn.style.pointerEvents = 'auto';
     isLoading = false;
 
-    // ✅ 保留你原有逻辑：清理旧iframe
     const oldIframe = el.querySelector("iframe");
     if (oldIframe) el.removeChild(oldIframe);
   }
 
-  // ✅ 新增：核心点击加载逻辑（和Artalk完全一致的丝滑体验）
   document.getElementById(config.buttonId)?.addEventListener('click', () => {
     const el = document.getElementById(config.containerId);
     const btn = document.getElementById(config.buttonId);
     if (isLoading || !el || !btn) return;
     isLoading = true;
 
-    // ✅ 点击后：按钮平滑消失（无文字切换，丝滑过渡）
     btn.style.opacity = '0';
     btn.style.transform = 'scale(0.9)';
     btn.style.pointerEvents = 'none';
 
-    // ✅ 15秒超时保护（可选，和Artalk保持一致）
     const timer = setTimeout(() => {
-      initGiscus(); // 超时后重置
+      initGiscus();
     }, 15000);
 
-    // ✅ 保留你原有逻辑：创建Giscus脚本
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.setAttribute("data-repo", config.repo);
@@ -80,17 +74,22 @@ import { GISCUS_CONFIG } from "../config";
     script.async = true;
     script.crossOrigin = "anonymous";
 
-    // ✅ 新增：脚本加载成功/失败处理
-    script.onload = () => clearTimeout(timer);
+    // 修复点3：新增兼容Giscus的销毁逻辑，防止重复加载iframe
+    script.onload = () => {
+      clearTimeout(timer);
+      // 加载完成后彻底禁用按钮，防止重复触发
+      btn.style.pointerEvents = 'none';
+    };
     script.onerror = () => {
       clearTimeout(timer);
-      initGiscus(); // 失败后重置按钮
+      initGiscus();
     };
 
     el.appendChild(script);
   });
 
-  // ✅ 保留你原有监听事件
   window.addEventListener('DOMContentLoaded', initGiscus);
   window.addEventListener('astro:navigation-end', initGiscus);
+  // 兼容astro最新的页面加载事件
+  window.addEventListener('astro:page-load', initGiscus);
 </script>
