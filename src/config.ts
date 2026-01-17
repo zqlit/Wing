@@ -34,6 +34,12 @@ export const SITE_CONFIG = {
 
 export const NAVIGATION = [
   { label: "Home", href: "/" },
-  { label: "Blog", href: "/blog" },
+  { label: "Archive", href: "/archive" },
+  { label: "Links", href: "/links" },
   { label: "About", href: "/about" },
 ];
+
+// 分页配置
+export const PAGINATION_CONFIG = {
+  postsPerPage: 5   , // 每页显示的文章数
+};
