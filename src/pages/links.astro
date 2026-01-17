@@ -14,7 +14,18 @@ const links = [
     description: "现代化的静态网站生成器",
     avatar: "https://astro.build/favicon.svg"
   },
-  // 可以在这里添加更多友链
+  {
+    name: "Hugo",
+    url: "https://gohugo.io",
+    description: "快速且灵活的静态网站生成器",
+    avatar: "https://gohugo.io/favicon-32x32.png"
+  },
+  {
+    name: "Vercel",
+    url: "https://vercel.com",
+    description: "前端部署和托管平台",
+    avatar: "https://vercel.com/favicon.ico"
+  },
 ];
 ---
 
@@ -22,11 +33,7 @@ const links = [
   title="友情链接"
   slug="links"
   pubDate={new Date()}
-  enableComments={false}
 >
-  <div class="mb-8">
-    <p class="text-gray-600 dark:text-gray-400">一些值得推荐的网站</p>
-  </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       {links.map((link) => (
