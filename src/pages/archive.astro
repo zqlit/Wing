@@ -29,61 +29,32 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
   pubDate={new Date()}
   enableComments={false}
 >
-  <div class="mb-8">
-    <p class="text-gray-600 dark:text-gray-400">
-      共 {allPosts.length} 篇文章
-    </p>
-  </div>
-
-  <div class="space-y-16 relative">
+  <div class="space-y-8">
     {years.map((year) => (
-      <div class="archive-year relative">
-        {/* 年份标记 */}
-        <div class="flex items-center gap-3 mb-6">
-          <div class="relative flex items-center">
-            <div class="w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-600 ring-2 ring-gray-200 dark:ring-gray-800"></div>
-            <div class="absolute left-1.5 top-1/2 w-10 h-px bg-gray-300 dark:bg-gray-700"></div>
-          </div>
-          <h2 class="text-2xl font-bold flex items-center gap-3">
-            <span>{year}</span>
-            <span class="text-base font-normal text-gray-500 dark:text-gray-400">
-              {postsByYear[year].length} 篇文章
-            </span>
-          </h2>
-        </div>
-        
-        {/* 时间轴容器 */}
-        <div class="ml-2 border-l-2 border-gray-200 dark:border-gray-800 pl-8 space-y-6 relative">
-          {postsByYear[year].map((post, index) => {
+      <section class="space-y-3">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{year}</h2>
+
+        <div class="space-y-2">
+          {postsByYear[year].map((post) => {
             const key = formatDateKey(post.data.pubDate);
+            const month = String(post.data.pubDate.getMonth() + 1).padStart(2, '0');
+            const day = String(post.data.pubDate.getDate()).padStart(2, '0');
             return (
-              <div class="archive-item group relative">
-                {/* 时间轴节点 */}
-                <div class="absolute -left-[33px] top-2 w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600 group-hover:bg-gray-900 dark:group-hover:bg-gray-200 transition-colors"></div>
-                
-                <a
-                  href={`/${key}.html`}
-                  class="block"
-                >
-                  <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 mb-2">
-                    <time class="text-sm text-gray-500 dark:text-gray-500 font-mono min-w-[90px]">
-                      <FormattedDate date={post.data.pubDate} />
-                    </time>
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {post.data.title}
-                    </h3>
-                  </div>
-                  {post.data.description && (
-                    <p class="text-sm text-gray-600 dark:text-gray-400 sm:ml-[106px] line-clamp-2">
-                      {post.data.description}
-                    </p>
-                  )}
-                </a>
-              </div>
+              <a
+                href={`/${key}.html`}
+                class="flex items-baseline gap-4 hover:text-blue-600 dark:hover:text-blue-400 transition"
+              >
+                <time class="text-sm text-gray-500 dark:text-gray-500 min-w-[44px]">
+                  {month}/{day}
+                </time>
+                <span class="text-base text-gray-900 dark:text-gray-100">
+                  {post.data.title}
+                </span>
+              </a>
             );
           })}
         </div>
-      </div>
+      </section>
     ))}
   </div>
 </PostLayout>

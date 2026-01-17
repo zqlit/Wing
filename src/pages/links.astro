@@ -4,27 +4,19 @@ import PostLayout from "../layouts/PostLayout.astro";
 const links = [
   {
     name: "GitHub",
-    url: "https://github.com",
-    description: "全球最大的代码托管平台",
-    avatar: "https://github.githubassets.com/favicons/favicon.svg"
+    url: "https://github.com"
   },
   {
     name: "Astro",
-    url: "https://astro.build",
-    description: "现代化的静态网站生成器",
-    avatar: "https://astro.build/favicon.svg"
+    url: "https://astro.build"
   },
   {
     name: "Hugo",
-    url: "https://gohugo.io",
-    description: "快速且灵活的静态网站生成器",
-    avatar: "https://gohugo.io/favicon-32x32.png"
+    url: "https://gohugo.io"
   },
   {
     name: "Vercel",
-    url: "https://vercel.com",
-    description: "前端部署和托管平台",
-    avatar: "https://vercel.com/favicon.ico"
+    url: "https://vercel.com"
   },
 ];
 ---
@@ -34,44 +26,32 @@ const links = [
   slug="links"
   pubDate={new Date()}
 >
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {links.map((link) => (
+  <div class="flex flex-wrap items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
+    {links.map((link, idx) => (
+      <>
         <a
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-600 bg-white dark:bg-slate-950 transition"
+          class="hover:text-blue-600 dark:hover:text-blue-400 transition"
         >
-          <img
-            src={link.avatar}
-            alt={link.name}
-            class="w-12 h-12 rounded-lg"
-            loading="lazy"
-          />
-          <div class="flex-1">
-            <h3 class="font-semibold text-gray-900 dark:text-gray-100">
-              {link.name}
-            </h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              {link.description}
-            </p>
-          </div>
-          <i class="ri-arrow-right-up-line text-gray-400"></i>
+          {link.name}
         </a>
-      ))}
+        {idx < links.length - 1 && (
+          <span class="text-gray-400">丨</span>
+        )}
+      </>
+    ))}
   </div>
 
-  <div class="mt-12 p-6 rounded-lg bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-800">
-    <h2 class="text-xl font-semibold mb-4">申请友链</h2>
-    <div class="text-sm text-gray-600 dark:text-gray-400 space-y-2">
-      <p>欢迎交换友链，请确保您的网站符合以下要求：</p>
+  <div class="mt-10 p-4 rounded-lg border border-gray-200 dark:border-gray-800">
+    <h2 class="text-base font-semibold mb-2">申请友链</h2>
+    <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1.5">
+      <p>欢迎交换友链，请确保：</p>
       <ul class="list-disc list-inside space-y-1 ml-4">
-        <li>内容积极向上，无违法违规信息</li>
-        <li>网站可以正常访问</li>
-        <li>最好是个人博客或技术类网站</li>
+        <li>内容健康可访问</li>
+        <li>最好是个人博客或技术站</li>
       </ul>
-      <p class="mt-4">请在评论区留言或通过邮件联系我。</p>
+      <p class="pt-1">在评论区留言或邮件联系我。</p>
     </div>
-  </div>
-</PostLayout>
+  </div></PostLayout>
