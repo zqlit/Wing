@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../layouts/PostLayout.astro';
+import { formatDateKey } from '../utils/dataFormatte';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => {
+    const key = formatDateKey(post.data.pubDate);
+    return {
+      params: { slug: `${key}.html` },
+      props: { post, slugKey: key },
+    };
+  });
+}
+
+export const prerender = true;
+
+const { post, slugKey } = Astro.props;
+const { slug } = Astro.params;
+const { Content } = await render(post);
+---
+
+<PostLayout
+  post={post}
+  title={post.data.title}
+  slug={slugKey}
+  pubDate={post.data.pubDate}
+>
+  <Content />
+</PostLayout>

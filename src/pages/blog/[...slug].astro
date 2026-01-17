@@ -14,7 +14,7 @@ export const prerender = true;
 
 const { post } = Astro.props;
 const { slug } = Astro.params;
-const { Content, readingTime } = await render(post);
+const { Content } = await render(post);
 ---
 
 <PostLayout
@@ -22,7 +22,6 @@ const { Content, readingTime } = await render(post);
   title={post.data.title}
   slug={slug}
   pubDate={post.data.pubDate}
-  readingTime={readingTime}
 >
   <Content />
 </PostLayout>

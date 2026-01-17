@@ -8,6 +8,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://5b2.cn",
   output: "static",
+  trailingSlash: "never",
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [

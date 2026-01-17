@@ -1,6 +1,5 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
-import readingTime from "remark-reading-time";
 
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -16,7 +15,6 @@ const blog = defineCollection({
       updatedDate: z.coerce.date().optional(),
       heroImage: image().optional(),
     }),
-  remarkPlugins: [readingTime],
 });
 
 export const collections = { blog };

@@ -16,19 +16,19 @@ import { GISCUS_CONFIG } from "../config";
   <div id="giscus-container" class="mt-4"></div>
 </div>
 
-<script is:inline> <!-- 修复点1：去掉 type="module" -->
-  const config = {
+<script is:inline>
+  const config = JSON.parse(`${JSON.stringify({
     containerId: "giscus-container",
     buttonId: "LoadGiscusButton",
-    repo: ${JSON.stringify(GISCUS_CONFIG.repo)},
-    repoId: ${JSON.stringify(GISCUS_CONFIG.repoId)},
-    category: ${JSON.stringify(GISCUS_CONFIG.category)},
-    categoryId: ${JSON.stringify(GISCUS_CONFIG.categoryId)},
-    mapping: ${JSON.stringify(GISCUS_CONFIG.mapping)},
-    reactionsEnabled: ${JSON.stringify(GISCUS_CONFIG.reactionsEnabled)},
-    theme: ${JSON.stringify(GISCUS_CONFIG.theme)},
-    lang: ${JSON.stringify(GISCUS_CONFIG.lang)}
-  };
+    repo: GISCUS_CONFIG.repo,
+    repoId: GISCUS_CONFIG.repoId,
+    category: GISCUS_CONFIG.category,
+    categoryId: GISCUS_CONFIG.categoryId,
+    mapping: GISCUS_CONFIG.mapping,
+    reactionsEnabled: GISCUS_CONFIG.reactionsEnabled,
+    theme: GISCUS_CONFIG.theme,
+    lang: GISCUS_CONFIG.lang,
+  })}`);
 
   let isLoading = false;
 

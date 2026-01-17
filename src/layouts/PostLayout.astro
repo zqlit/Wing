@@ -1,5 +1,5 @@
 ---
-const { post, title, slug, pubDate, readingTime } = Astro.props;
+const { post, title, slug, pubDate, enableComments = true } = Astro.props;
 import BaseLayout from "./BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import { formatISODate } from "../utils/dataFormatte";
@@ -48,5 +48,5 @@ import Comment from "../components/comment.astro";
     </footer>
   </article>
 
-<Comment post={post} system="artalk" />
+{enableComments && <Comment post={post} system="artalk" />}
 </BaseLayout>
