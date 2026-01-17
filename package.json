@@ -13,8 +13,10 @@
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.1",
     "@astrojs/vercel": "^9.0.3",
+    "@vitalets/google-translate-api": "^9.2.1",
     "artalk": "^2.9.1",
     "astro": "^5.16.9",
+    "pinyin-pro": "^3.27.0",
     "remark-reading-time": "^2.0.2",
     "sharp": "^0.34.3"
   },
