@@ -1,5 +1,4 @@
 ﻿---
-import "../styles/artalk.css";
 import { ARTALK_CONFIG } from "../config";
 
 interface Props {
@@ -22,6 +21,17 @@ const { pageKey } = Astro.props;
 
   <script is:inline define:vars={{ artalkCfg: ARTALK_CONFIG }}>
     // artalkCfg 已由 define:vars 提供
+
+    // 在页面加载时预加载本地覆盖样式
+    const injectArtalkStyles = () => {
+      if (!document.querySelector('link[href*="artalk.css"][data-override]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/src/styles/artalk.css';
+        link.setAttribute('data-override', 'true');
+        document.head.appendChild(link);
+      }
+    };
 
     // 使用事件委托，避免 View Transitions 下事件丢失
     document.addEventListener('click', function (e) {
@@ -52,10 +62,15 @@ const { pageKey } = Astro.props;
         const script = document.createElement('script');
         script.src = artalkCfg.jsUrl;
         script.onload = function () {
-          initArtalk(container);
+          // 脚本加载后重新注入覆盖样式
+          setTimeout(() => {
+            injectArtalkStyles();
+            initArtalk(container);
+          }, 50);
         };
         document.body.appendChild(script);
       } else {
+        injectArtalkStyles();
         initArtalk(container);
       }
 
@@ -69,6 +84,41 @@ const { pageKey } = Astro.props;
           pageTitle: document.title,
           locale: 'zh-CN',
         }).setDarkMode(document.documentElement.classList.contains('dark'));
+      }
+    });
+
+    // 监听暗模式变更，同步更新 Artalk
+    document.addEventListener('astro:before-swap', function () {
+      if (window.Artalk) {
+        setTimeout(() => {
+          const isDark = document.documentElement.classList.contains('dark');
+          window.Artalk.setDarkMode(isDark);
+        }, 50);
+      }
+    });
+
+    // 监听主题切换 - 通过 MutationObserver 监听 class 变化
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          if (window.Artalk) {
+            const isDark = document.documentElement.classList.contains('dark');
+            window.Artalk.setDarkMode(isDark);
+          }
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    // 监听 localStorage 变化，实时同步主题
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'theme' && window.Artalk) {
+        const isDark = e.newValue === 'dark' || (e.newValue === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        window.Artalk.setDarkMode(isDark);
       }
     });
 
@@ -90,3 +140,4 @@ const { pageKey } = Astro.props;
     });
   </script>
 </div>
+

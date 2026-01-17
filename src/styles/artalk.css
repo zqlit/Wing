@@ -83,16 +83,38 @@
 
 .atk-btn.active,
 .atk-btn-primary.active,
-.atk-send-btn:enabled,
 [class*="atk-btn"].active {
   background-color: var(--artalk-color-primary) !important;
   color: white !important;
   border-color: var(--artalk-color-primary) !important;
 }
 
-.atk-send-btn:hover:enabled {
-  background-color: var(--artalk-color-primary-dark) !important;
-  border-color: var(--artalk-color-primary-dark) !important;
+/* 发送按钮特殊样式 */
+.atk-send-btn {
+  background-color: #1f2937 !important;
+  color: white !important;
+  border-color: #1f2937 !important;
+}
+
+.dark .atk-send-btn {
+  background-color: #4b5563 !important;
+  color: #e2e8f0 !important;
+  border-color: #4b5563 !important;
+}
+
+.atk-send-btn:hover {
+  background-color: #111827 !important;
+  border-color: #111827 !important;
+}
+
+.dark .atk-send-btn:hover {
+  background-color: #6b7280 !important;
+  border-color: #6b7280 !important;
+}
+
+.atk-send-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
 }
 
 /* 文字 */
