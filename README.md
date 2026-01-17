@@ -1,67 +1,45 @@
-# Astro Starter Kit: Blog
+# Wing Blog (Astro)
 
-```sh
-pnpm create astro@latest -- --template blog
-```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-
-## 😍 Show Demo
+轻量博客，基于 Astro + Tailwind CSS 4，文章路由使用发布日期：`/{yyyymmdd}.html`，自带评论开关与多种分享/过渡效果。
 
 ![img.png](src/assets/Wing.png)
 
-## 🚀 Project Structure
+## ✨ 特性
+- 日期路由：按发布日期生成 `yyyymmdd.html`，无需 `/blog/` 前缀。
+- 评论可选：`PostLayout` 支持 `enableComments`，内置 Artalk（默认）与 Giscus 组件。
+- 视图过渡：共享元素动画（标题/卡片/日期），Tailwind 4 动画变量。
+- 内容：Markdown/MDX，RSS & Sitemap 已开启。
+- 样式：Tailwind CSS 4 + Typography，暗色模式支持。
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+## 🚀 使用
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🗂 主要结构
+```text
+src/
+	components/   # Header, PostsLists, Comment 组件等
+	layouts/      # BaseLayout, PostLayout
+	pages/        # index, about, [slug].astro (日期 .html 路由)
+	content/      # blog 文章 (md/mdx)
+	utils/        # 日期格式化等工具
+public/         # 静态资源
+```
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 📝 路由与链接
+- 列表链接：`/{yyyymmdd}.html`
+- 动态页：`src/pages/[slug].astro` 使用 `formatDateKey(pubDate)` 生成静态路径
+- RSS：输出与页面一致的日期后缀链接
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## 🔧 配置要点
+- `astro.config.mjs`：`trailingSlash: "never"`，输出文件名而非目录
+- 评论：在使用 `PostLayout` 时传入 `enableComments={false}` 可关闭
+- 主题：Header 头像按钮切换深浅色，持久化到 localStorage
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+## 📌 备注
+- 如需保留旧 `/blog/slug` 路径，可在 `src/pages/blog/[...slug].astro` 做重定向或保留并行路由。
+- 友链页若需要，新增 `src/pages/links.astro` 并在 Header 添加入口。
