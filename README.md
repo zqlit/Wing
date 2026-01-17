@@ -10,6 +10,7 @@
 - 视图过渡：共享元素动画（标题/卡片/日期），Tailwind 4 动画变量。
 - 内容：Markdown/MDX，RSS & Sitemap 已开启。
 - 样式：Tailwind CSS 4 + Typography，暗色模式支持。
+- 阅读时长：基于 `reading-time` 预估，显示在文章日期旁。
 
 ## 🚀 使用
 ```bash

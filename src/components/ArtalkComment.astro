@@ -1,11 +1,14 @@
----
+﻿---
+import "../styles/artalk.css";
+import { ARTALK_CONFIG } from "../config";
+
 interface Props {
   pageKey: string;
 }
 const { pageKey } = Astro.props;
 ---
 
-<div class="text-center mt-8">
+<div class="text-center mt-8 w-full">
   <button
     id="artalk-btn"
     class="inline-flex items-center gap-1.5 cursor-pointer text-sm px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50/70 text-slate-700 transition-all duration-350 ease-in-out active:scale-95 dark:bg-slate-900/30 dark:text-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900/50"
@@ -15,11 +18,13 @@ const { pageKey } = Astro.props;
     </svg>
     让我看看！都在聊什么
   </button>
-  <div id="artalk-container" class="mt-4" data-page-key={pageKey}></div>
+  <div id="artalk-container" class="mt-4 w-full max-w-none" data-page-key={pageKey}></div>
 
-  <script is:inline>
+  <script is:inline define:vars={{ artalkCfg: ARTALK_CONFIG }}>
+    // artalkCfg 已由 define:vars 提供
+
     // 使用事件委托，避免 View Transitions 下事件丢失
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       const btn = e.target.closest('#artalk-btn');
       if (!btn) return;
 
@@ -38,15 +43,15 @@ const { pageKey } = Astro.props;
       if (!document.querySelector('link[href*="Artalk.css"]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.css';
+        link.href = artalkCfg.cssUrl;
         document.head.appendChild(link);
       }
 
       // 加载并初始化 Artalk
       if (!window.Artalk) {
         const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.js';
-        script.onload = function() {
+        script.src = artalkCfg.jsUrl;
+        script.onload = function () {
           initArtalk(container);
         };
         document.body.appendChild(script);
@@ -58,26 +63,26 @@ const { pageKey } = Astro.props;
         const pageKey = el.dataset.pageKey || window.location.pathname;
         window.Artalk.init({
           el: el,
-          server: "https://artalk.usj.cc",
-          site: "伍比贰",
+          server: artalkCfg.server,
+          site: artalkCfg.site,
           pageKey: pageKey,
           pageTitle: document.title,
-          locale: 'zh-CN'
+          locale: 'zh-CN',
         }).setDarkMode(document.documentElement.classList.contains('dark'));
       }
     });
 
     // 路由切换重置
-    document.addEventListener('astro:after-swap', function() {
+    document.addEventListener('astro:after-swap', function () {
       const btn = document.getElementById('artalk-btn');
       const container = document.getElementById('artalk-container');
-      
+
       if (btn) {
         btn.style.opacity = '1';
         btn.style.transform = 'scale(1)';
         btn.style.pointerEvents = 'auto';
       }
-      
+
       if (container) {
         container.innerHTML = '';
         delete container.dataset.loaded;

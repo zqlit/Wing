@@ -1,0 +1,164 @@
+/* Artalk 主题覆盖 - 匹配 Tailwind 色系 */
+
+:root {
+  /* 浅色主题 */
+  --artalk-color-border: #f1f5f9;
+  --artalk-color-bg: #ffffff;
+  --artalk-color-bg-secondary: #fafbfc;
+  --artalk-color-text-main: #0f172a;
+  --artalk-color-text-secondary: #475569;
+  --artalk-color-text-tertiary: #94a3b8;
+  --artalk-color-primary: #3b82f6;
+  --artalk-color-primary-light: #dbeafe;
+  --artalk-color-primary-dark: #1e40af;
+}
+
+.dark {
+  /* 深色主题 */
+  --artalk-color-border: #1e293b;
+  --artalk-color-bg: #0f172a;
+  --artalk-color-bg-secondary: #1a202c;
+  --artalk-color-text-main: #cbd5e1;
+  --artalk-color-text-secondary: #94a3b8;
+  --artalk-color-text-tertiary: #64748b;
+  --artalk-color-primary: #60a5fa;
+  --artalk-color-primary-light: #1e3a8a;
+  --artalk-color-primary-dark: #0c4a6e;
+}
+
+/* 容器和背景 */
+.atk {
+  background-color: var(--artalk-color-bg) !important;
+  color: var(--artalk-color-text-main) !important;
+  border-color: var(--artalk-color-border) !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.atk-header {
+  border-bottom-color: var(--artalk-color-border) !important;
+}
+
+.atk-panel {
+  background-color: var(--artalk-color-bg-secondary) !important;
+}
+
+.atk-box {
+  background-color: var(--artalk-color-bg) !important;
+  border-color: var(--artalk-color-border) !important;
+}
+
+/* 输入框 */
+.atk-textarea,
+.atk-input {
+  background-color: var(--artalk-color-bg-secondary) !important;
+  color: var(--artalk-color-text-main) !important;
+  border-color: var(--artalk-color-border) !important;
+}
+
+.atk-textarea:focus,
+.atk-input:focus {
+  border-color: var(--artalk-color-border) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 按钮 - 更细致的选择器 */
+.atk-btn,
+.atk-btn-primary,
+.atk-send-btn,
+[class*="atk-btn"] {
+  background-color: var(--artalk-color-bg-secondary) !important;
+  color: var(--artalk-color-text-main) !important;
+  border-color: var(--artalk-color-border) !important;
+  border: 1px solid var(--artalk-color-border) !important;
+}
+
+.atk-btn:hover,
+.atk-btn-primary:hover,
+.atk-send-btn:hover,
+[class*="atk-btn"]:hover {
+  background-color: var(--artalk-color-border) !important;
+}
+
+.atk-btn.active,
+.atk-btn-primary.active,
+.atk-send-btn:enabled,
+[class*="atk-btn"].active {
+  background-color: var(--artalk-color-primary) !important;
+  color: white !important;
+  border-color: var(--artalk-color-primary) !important;
+}
+
+.atk-send-btn:hover:enabled {
+  background-color: var(--artalk-color-primary-dark) !important;
+  border-color: var(--artalk-color-primary-dark) !important;
+}
+
+/* 文字 */
+.atk-text-secondary {
+  color: var(--artalk-color-text-secondary) !important;
+}
+
+.atk-text-tertiary {
+  color: var(--artalk-color-text-tertiary) !important;
+}
+
+/* 链接和网址输入框 */
+.atk-link {
+  color: var(--artalk-color-text-main) !important;
+}
+
+input.atk-link {
+  color: var(--artalk-color-text-main) !important;
+}
+
+.atk-link:hover {
+  color: var(--artalk-color-primary-dark) !important;
+}
+
+/* 分割线 */
+.atk-hr {
+  border-color: var(--artalk-color-border) !important;
+}
+
+/* 评论卡片 */
+.atk-comment {
+  background-color: var(--artalk-color-bg) !important;
+  border-color: var(--artalk-color-border) !important;
+}
+
+.atk-comment:hover {
+  background-color: var(--artalk-color-bg-secondary) !important;
+}
+
+/* 标签和徽章 */
+.atk-badge {
+  background-color: var(--artalk-color-primary-light) !important;
+  color: var(--artalk-color-primary-dark) !important;
+}
+
+.dark .atk-badge {
+  background-color: var(--artalk-color-primary-light) !important;
+  color: var(--artalk-color-primary-dark) !important;
+}
+
+/* 文本和版权 */
+.atk-text {
+  color: var(--artalk-color-text-main) !important;
+}
+
+.atk-copyright {
+  color: var(--artalk-color-text-tertiary) !important;
+}
+
+.atk-copyright a {
+  color: var(--artalk-color-primary) !important;
+  text-decoration: none !important;
+}
+
+.atk-copyright a:hover {
+  color: var(--artalk-color-primary-dark) !important;
+  text-decoration: underline !important;
+}
+

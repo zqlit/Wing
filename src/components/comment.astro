@@ -13,7 +13,7 @@ const path = Astro.url.pathname;
 
 ---
 
-<div class="card-base p-6 mb-4">
+<div class="card-base mb-4">
   {system === "artalk" && <ArtalkComment pageKey={path} />}
   {system === "giscus" && <GiscusComment path={path} />}
 </div>
