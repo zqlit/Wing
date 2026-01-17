@@ -21,7 +21,7 @@ const { Content, readingTime } = await render(post);
   title={post.data.title}
   slug={slug}
   pubDate={post.data.pubDate}
-  readingTime={readingTime?.text} 
+  readingTime={readingTime} 
 >
   <Content />
 </PostLayout>

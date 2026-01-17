@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ArtalkComment from "./ArtalkComment.astro";
+import GiscusComment from "./GiscusComment.astro";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  system?: "artalk" | "giscus";
+}
+
+const { id } = Astro.props.post;
+const system = Astro.props.system || "artalk";
+// 路径拼接正确，Artalk用这个作为唯一标识，区分不同文章的评论
+const path = `/blog/${id}`;
+---
+
+<div class="card-base p-6 mb-4">
+  {system === "artalk" && <ArtalkComment path={path} />}
+  {system === "giscus" && <GiscusComment path={path} />}
+</div>

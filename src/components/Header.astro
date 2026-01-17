@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, AVATAR_URL } from "../config";
+import { SITE_CONFIG } from "../config";
 import HeaderLink from "./HeaderLink.astro";
 ---
 
@@ -8,7 +8,7 @@ import HeaderLink from "./HeaderLink.astro";
     <div class="nav-container flex items-center justify-between">
       <div class="avatar">
         <img
-          src={AVATAR_URL}
+          src={SITE_CONFIG.avatar}
           id="theme-toggle"
           class="w-11 rounded-md cursor-pointer"
         />

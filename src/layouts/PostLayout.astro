@@ -5,24 +5,25 @@ import Footer from "../components/Footer.astro";
 import BaseLayout from "./BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import { formatISODate } from "../utils/dataFormatte";
-import { Bloger_NAME } from "../config";
+import { SITE_CONFIG } from "../config";
+import Comment from "../components/comment.astro";
 ---
 
 <BaseLayout>
   <!-- 标题（共享过渡） -->
-  <h1 class="text-3xl font-bold" transition:name={`post-title-${slug}`}>
+  <h1 class="text-3xl font-bold mt-10" transition:name={`post-title-${slug}`}>
     {title}
   </h1>
 
-  <!-- 时间 + 阅读时长 -->
   <div
     class="flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-4"
   >
     <span transition:name={`post-date-${slug}`}>
       <span>写于 · </span>
-      <time datetime={formatISODate(pubDate)}><FormattedDate date={pubDate} /></time>
+      <time datetime={formatISODate(pubDate)}>
+        <FormattedDate date={pubDate} />
+      </time>
     </span>
-    <span>· 阅读约 {readingTime}</span>
   </div>
 
   <!-- 正文 -->
@@ -34,6 +35,8 @@ import { Bloger_NAME } from "../config";
   <footer
     class="mt-8 border-t border-gray-200 dark:border-gray-800 pt-4 text-sm text-gray-500 dark:text-gray-400"
   >
-    作者: {Bloger_NAME}
+    作者: {SITE_CONFIG.author}
   </footer>
+
+  <Comment post={Astro.props} system="artalk" />
 </BaseLayout>

@@ -1,0 +1,83 @@
+---
+interface Props {
+  path: string;
+}
+const { path } = Astro.props;
+---
+
+<div class="text-center">
+  <button id="LoadCommentsButton" class="inline-flex items-center gap-1.5 cursor-pointer text-sm px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50/70 text-slate-700 transition-all duration-350 ease-in-out active:scale-95 dark:bg-slate-900/30 dark:text-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900/50">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+    </svg>
+    让我看看！都在聊什么
+  </button>
+  <div id="artalk-container" class="mt-4"></div>
+
+  <script type="module" data-astro-exec="">
+    function initArtalkComment() {
+      const btn = document.getElementById("LoadCommentsButton");
+      const artalkContainer = document.getElementById("artalk-container");
+      let isLoading = false;
+      let artalkInstance = null;
+      let darkModeObserver = null;
+      const pagePath = "${path}";
+
+      const ARTALK_CONFIG = { server: "https://artalk.usj.cc", site: "伍比贰", locale: "zh-CN" };
+      loadArtalkCSS();
+      function loadArtalkCSS() {
+        if (!document.getElementById('artalk-css')) {
+          const link = document.createElement('link');
+          link.id = 'artalk-css'; link.rel = 'stylesheet'; link.href = 'https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.css';
+          document.head.appendChild(link);
+        }
+      }
+      const bindDarkMode = (at) => {
+        const setMode = () => at.setDarkMode(document.documentElement.classList.contains("dark"));
+        setMode();
+        darkModeObserver = new MutationObserver(setMode);
+        darkModeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      };
+      const destroyArtalk = () => {
+        if (artalkInstance) artalkInstance.destroy();
+        if (darkModeObserver) darkModeObserver.disconnect();
+        artalkInstance = darkModeObserver = null;
+      };
+      const renderArtalk = () => {
+        artalkInstance = window.Artalk.init({ el: artalkContainer, server: ARTALK_CONFIG.server, site: ARTALK_CONFIG.site, pageKey: pagePath, pageTitle: document.title, locale: ARTALK_CONFIG.locale });
+        bindDarkMode(artalkInstance);
+      };
+
+      btn?.addEventListener('click', () => {
+        if (isLoading) return;
+        isLoading = true;
+        btn.style.opacity = '0';
+        btn.style.transform = 'scale(0.92)';
+        btn.style.pointerEvents = 'none';
+        const timer = setTimeout(() => {
+          isLoading = false;
+          btn.style.opacity = '1'; btn.style.transform = 'scale(1)'; btn.style.pointerEvents = 'auto';
+        }, 15000);
+
+        try {
+          if (!window.Artalk) {
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.js'; s.async = true;
+            s.onload = () => { clearTimeout(timer); renderArtalk(); };
+            s.onerror = () => { clearTimeout(timer); isLoading=false; btn.style.opacity='1'; btn.style.transform='scale(1)'; btn.style.pointerEvents='auto'; };
+            document.body.appendChild(s);
+          } else { clearTimeout(timer); renderArtalk(); }
+        } catch (err) {
+          clearTimeout(timer); isLoading=false; btn.style.opacity='1'; btn.style.transform='scale(1)'; btn.style.pointerEvents='auto';
+        }
+      });
+
+      window.addEventListener('astro:after-swap', () => {
+        destroyArtalk(); isLoading=false;
+        btn.style.opacity='1'; btn.style.transform='scale(1)'; btn.style.pointerEvents='auto';
+        artalkContainer.innerHTML = '';
+      });
+    }
+    document.addEventListener("astro:page-load", initArtalkComment);
+  </script>
+</div>

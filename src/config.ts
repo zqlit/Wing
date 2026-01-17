@@ -1,13 +1,37 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
+const SITE_TITLE = "伍比贰";
+const SITE_DESCRIPTION = "记录生活的点点滴滴";
+const AVATAR_URL = "https://usj.cc/image/tx7.jpg";
+const BEI_AN_CODE = "鄂ICP备2022015735号-2";
+const GITHUB_URL = "https://github.com/zqlit/Wing";
+const BLOGGER_NAME = "小赵同学";
 
-export const SITE_TITLE = 'Astro Blog';
-export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const ARTALK_CONFIG = {
+  server: "https://artalk.usj.cc",
+  site: "伍比贰",
+};
 
-export const AVATAR_URL = 'https://usj.cc/image/tx7.jpg'
+export const GISCUS_CONFIG = {
+  repo: "zqlit/Wing",
+  repoId: "REPO_ID",
+  category: "General",
+  categoryId: "CATEGORY_ID",
+  mapping: "pathname",
+  reactionsEnabled: "1",
+  theme: "light",
+  lang: "zh-CN",
+};
 
-export const BEI_AN_CODE = "鄂ICP备2022015735号-2"
+export const SITE_CONFIG = {
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  avatar: AVATAR_URL,
+  author: BLOGGER_NAME,
+  github: GITHUB_URL,
+  beianCode: BEI_AN_CODE,
+};
 
-export const GITHUB_URL =  "https://github.com/zqlit/Wing"
-
-export const Bloger_NAME = "小赵同学"
+export const NAVIGATION = [
+  { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
+];
