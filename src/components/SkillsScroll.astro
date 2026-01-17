@@ -1,0 +1,107 @@
+---
+const skillsData = [
+  // 第一行：编程语言
+  ['JavaScript', 'TypeScript', 'Python', 'Java', 'Go', 'Rust', 'C++', 'PHP'],
+  // 第二行：前端框架
+  ['React', 'Vue', 'Svelte', 'Angular', 'Next.js', 'Nuxt.js', 'Astro', 'Solid.js'],
+  // 第三行：后端 & 工具
+  ['Node.js', 'Express', 'Nest.js', 'Django', 'FastAPI', 'Spring Boot', 'Docker', 'Kubernetes'],
+  // 第四行：数据库 & 样式
+  ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'Tailwind CSS', 'Sass', 'CSS3', 'HTML5'],
+  // 第五行：其他工具
+  ['Git', 'GitHub', 'Linux', 'Nginx', 'Webpack', 'Vite', 'VS Code', 'Figma']
+];
+---
+
+<section class="skills-section">
+  <h2 class="text-xl font-semibold mb-4 mt-8">技能展示</h2>
+  
+  <div class="skills-container">
+    {skillsData.map((skills, index) => (
+      <div class="skills-row">
+        <div class={`skills-track ${index % 2 === 1 ? 'skills-track-reverse' : ''}`}>
+          {/* 渲染两次实现无缝滚动 */}
+          {[...skills, ...skills].map((skill) => (
+            <span class="skill-tag">{skill}</span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skills-section {
+    margin-top: 3rem;
+  }
+
+  .skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+  }
+
+  .skills-row {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .skills-track {
+    display: flex;
+    gap: 0.75rem;
+    animation: scroll-left 30s linear infinite;
+    width: fit-content;
+  }
+
+  .skills-track-reverse {
+    animation: scroll-right 30s linear infinite;
+  }
+
+  .skill-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    transition: all 0.3s;
+    color: #333;
+  }
+
+  :global(.dark) .skill-tag {
+    background: #2a2a2a;
+    border: 1px solid #404040;
+    color: #e5e5e5;
+  }
+
+  .skill-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes scroll-right {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  /* 鼠标悬停时暂停动画 */
+  .skills-track:hover {
+    animation-play-state: paused;
+  }
+</style>
