@@ -24,10 +24,10 @@ const { pageKey } = Astro.props;
 
     // 在页面加载时预加载本地覆盖样式
     const injectArtalkStyles = () => {
-      if (!document.querySelector('link[href*="artalk.css"][data-override]')) {
+      if (!document.querySelector('link[href*="artalk-override.css"][data-override]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = '/src/styles/artalk.css';
+        link.href = '/artalk-override.css';
         link.setAttribute('data-override', 'true');
         document.head.appendChild(link);
       }
