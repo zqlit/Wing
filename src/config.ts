@@ -8,8 +8,8 @@ const BLOGGER_NAME = "小赵同学";
 export const ARTALK_CONFIG = {
   server: "https://artalk.usj.cc",
   site: "伍比贰",
-  jsUrl: "/artalk.js",
-  cssUrl: "/artalk.css",
+  jsUrl: "https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.js",
+  cssUrl: "https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.css",
 };
 
 export const GISCUS_CONFIG = {
