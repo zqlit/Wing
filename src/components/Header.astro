@@ -13,10 +13,10 @@ const navItems = [
   <!-- Logo - 点击切换主题 -->
   <button
     id="theme-toggle"
-    class="text-l font-medium text-[#111827] dark:text-[#f8fafc] hover:opacity-70 transition-opacity cursor-pointer"
+    class="text-xl font-semibold text-[#111827] dark:text-[#f8fafc] hover:opacity-70 transition-opacity cursor-pointer"
     aria-label="切换主题"
   >
-    5b2
+    Blog
   </button>
 
   <!-- 导航链接 -->
@@ -24,7 +24,7 @@ const navItems = [
     {navItems.map((item) => (
       <a
         href={item.href}
-        class="text-sm font-medium text-[#111827] dark:text-[#f8fafc] hover:opacity-70 transition-opacity"
+        class="text-sm font-semibold text-[#111827] dark:text-[#f8fafc] hover:opacity-70 transition-opacity"
       >
         {item.label}
       </a>
