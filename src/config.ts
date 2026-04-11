@@ -1,6 +1,6 @@
 const SITE_TITLE = "伍比贰";
 const SITE_DESCRIPTION = "记录生活的点点滴滴";
-const AVATAR_URL = "https://usj.cc/image/tx7.jpg";
+const AVATAR_URL = "/avatar.jpg?v=2";
 const BEI_AN_CODE = "鄂ICP备2022015735号-2";
 const GITHUB_URL = "https://github.com/zqlit/Wing";
 const BLOGGER_NAME = "小赵同学";
@@ -8,8 +8,8 @@ const BLOGGER_NAME = "小赵同学";
 export const ARTALK_CONFIG = {
   server: "https://artalk.usj.cc",
   site: "伍比贰",
-  jsUrl: "https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.js",
-  cssUrl: "https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.css",
+  jsUrl: "/artalk.js",
+  cssUrl: "/artalk.css",
 };
 
 export const GISCUS_CONFIG = {

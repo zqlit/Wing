@@ -12,14 +12,27 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 <a
   href={href}
   class:list={[
-    "inline-block no-underline transition-all",
-    {
-      "font-bold underline": isActive,
-      "hover:underline": !isActive,
-    },
+    "relative inline-block py-1 text-sm font-medium transition-colors duration-200",
+    isActive 
+      ? "text-gray-900 dark:text-gray-100" 
+      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200",
     className
   ]}
   {...props}
 >
   <slot />
+  <!-- 下划线动画 -->
+  <span 
+    class:list={[
+      "absolute bottom-0 left-0 h-0.5 bg-sky-500 transition-all duration-300 ease-out",
+      isActive ? "w-full" : "w-0 group-hover:w-full"
+    ]}
+  />
+  {!isActive && <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-sky-500 transition-all duration-300 ease-out group-hover:w-full" />}
 </a>
+
+<style>
+  a:hover span:last-child {
+    width: 100%;
+  }
+</style>

@@ -44,24 +44,24 @@ export async function getStaticPaths() {
   <main>
     <PostsLists posts={posts} />
     
-    {/* 分页导航（圆形按钮，简约） */}
-    <div class="flex items-center justify-center gap-2 mt-12 py-6">
+    {/* 分页导航 */}
+    <nav class="flex items-center justify-center gap-6 mt-12">
       {Array.from({ length: totalPages }, (_, i) => {
         const pageNum = i + 1;
-        const active = pageNum === currentPage;
+        const isActive = pageNum === currentPage;
         return (
           <a
-            href={pageNum === 1 ? "/" : `/page/${pageNum}`}
-            class={`w-8 h-8 rounded-full flex items-center justify-center text-xs transition border ${
-              active
-                ? "bg-gray-900 text-white border-gray-900 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-100"
-                : "border-gray-300 text-gray-500 hover:border-gray-500 hover:text-gray-900 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-500 dark:hover:text-gray-100"
+            href={pageNum === 1 ? '/' : `/page/${pageNum}`}
+            class={`text-sm font-medium ${
+              isActive
+                ? 'text-[#111827] dark:text-[#f8fafc]'
+                : 'text-[#6b7280] dark:text-[#9ca3af] hover:text-[#111827] dark:hover:text-[#f8fafc]'
             }`}
           >
             {pageNum}
           </a>
         );
       })}
-    </div>
+    </nav>
   </main>
 </BaseLayout>

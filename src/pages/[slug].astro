@@ -28,7 +28,10 @@ const reading = post.body ? readingTime(post.body).minutes : undefined;
   title={post.data.title}
   slug={slugKey}
   pubDate={post.data.pubDate}
+  updatedDate={post.data.updatedDate}
   readingTime={reading}
+  description={post.data.description}
+  heroImage={post.data.heroImage}
 >
   <Content />
 </PostLayout>

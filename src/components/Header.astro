@@ -1,58 +1,85 @@
 ---
 import { SITE_CONFIG } from "../config";
-import HeaderLink from "./HeaderLink.astro";
+
+const navItems = [
+  { href: "/", label: "首页" },
+  { href: "/about", label: "关于" },
+  { href: "/links", label: "友链" },
+  { href: "/rss.xml", label: "RSS" },
+];
 ---
 
-<header>
-  <nav>
-    <div class="nav-container flex items-center justify-between">
-      <div class="avatar">
-        <img
-          src={SITE_CONFIG.avatar}
-          id="theme-toggle"
-          class="w-11 rounded-md cursor-pointer"
-        />
-      </div>
-      <div class="internal-links space-x-5">
-        <HeaderLink href="/">Home</HeaderLink>
-        <HeaderLink href="/archive">Archive</HeaderLink>
-        <HeaderLink href="/links">Links</HeaderLink>
-        <HeaderLink href="/about">About</HeaderLink>
-      </div>
-    </div>
+<header class="flex items-center justify-between h-6">
+  <!-- 头像 - 点击切换主题 -->
+  <button
+    id="theme-toggle"
+    class="text-sm font-medium text-[#111827] dark:text-[#f8fafc] hover:opacity-70 transition-opacity cursor-pointer"
+    aria-label="切换主题"
+  >
+    5b2
+  </button>
+
+  <!-- 导航链接 -->
+  <nav class="flex items-center space-x-6" id="main-nav">
+    {navItems.map((item) => (
+      <a
+        href={item.href}
+        data-href={item.href}
+        class="text-sm font-medium text-[#111827] dark:text-[#f8fafc] hover:opacity-70 transition-opacity"
+      >
+        {item.label}
+      </a>
+    ))}
   </nav>
 </header>
 
 <script is:inline>
   const html = document.documentElement;
-  // 获取当前主题状态函数
+  
   const getIsDark = () => {
     const savedTheme = localStorage.getItem('theme');
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return savedTheme ? savedTheme === 'dark' : systemDark;
+    return savedTheme ? savedTheme === 'dark' : isSystemDark;
   };
 
-  // 主题初始化函数
   const initTheme = () => {
     const isDark = getIsDark();
     html.classList[isDark ? 'add' : 'remove']('dark');
   };
 
-  // 主题切换核心逻辑，点击一次执行一次
   const toggleTheme = () => {
     const isDark = html.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   };
 
-  // astro:after-swap 路由跳转立即执行，无闪屏无延迟
+  // 高亮当前导航项
+  const highlightActiveNav = () => {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('#main-nav a');
+    navLinks.forEach(link => {
+      const href = link.getAttribute('data-href');
+      // 首页特殊处理
+      const isActive = href === '/' 
+        ? currentPath === '/' || currentPath === ''
+        : currentPath.startsWith(href);
+      
+      if (isActive) {
+        link.classList.add('underline', 'underline-offset-4');
+      } else {
+        link.classList.remove('underline', 'underline-offset-4');
+      }
+    });
+  };
+
   document.addEventListener('astro:after-swap', () => {
     initTheme();
+    highlightActiveNav();
     const themeToggle = document.getElementById('theme-toggle');
     themeToggle?.removeEventListener('click', toggleTheme);
     themeToggle?.addEventListener('click', toggleTheme);
   });
 
-  // 首次加载立即执行一次，进入网站就生效
   initTheme();
+  highlightActiveNav();
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
 </script>

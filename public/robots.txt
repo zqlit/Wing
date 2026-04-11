@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://5b2.cn/sitemap-index.xml
+
+# 禁止爬虫访问的路径（如果有的话）
+# Disallow: /admin/
+# Disallow: /private/
+
+# 爬虫速率限制
+Crawl-delay: 1
+
+# 特定爬虫配置
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /

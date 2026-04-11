@@ -1,55 +1,57 @@
 ---
-const { post, title, slug, pubDate, readingTime, enableComments = true } = Astro.props;
+const { post, title, slug, pubDate, readingTime, enableComments = true, updatedDate, description, heroImage } = Astro.props;
 import BaseLayout from "./BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import { formatISODate } from "../utils/dataFormatte";
 import { SITE_CONFIG } from "../config";
 import Comment from "../components/comment.astro";
+
+// 格式化日期为 YYYY-MM-DD
+function formatSimpleDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 ---
 
-<BaseLayout>
-  <article transition:name={`post-card-${slug}`}>
-    <h1 class="text-3xl font-bold mt-10" transition:name={`post-title-${slug}`}>
+<BaseLayout 
+  title={title}
+  description={description}
+  type="article"
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  keywords={[title, SITE_CONFIG.author, "博客", "文章"]}
+>
+  <article>
+    <h1 class="text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mb-2">
       {title}
     </h1>
-
-    <div
-      class="flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-4 py-4"
-    >
-      <span transition:name={`post-date-${slug}`}>
-        <time datetime={formatISODate(pubDate)}>
-          <FormattedDate date={pubDate} />
-        </time>
-      </span>
-      {typeof readingTime === 'number' && (
-        <span class="flex items-center gap-1" transition:name={`post-reading-${slug}`}>
-          <span>{Math.ceil(readingTime)} min read</span>
-        </span>
-      )}
-    </div>
-
-    <div
-      class="py-2 space-y-6 prose prose-neutral dark:prose-invert max-w-none
- prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto
- prose-a:text-sky-500 dark:prose-a:text-sky-400 prose-a:underline-offset-4 hover:prose-a:text-sky-600 dark:hover:prose-a:text-sky-300
- prose-headings:font-semibold prose-headings:mb-4 prose-headings:mt-9
- prose-p:leading-relaxed prose-p:mb-5
- prose-ul:mb-5 prose-ul:leading-relaxed prose-ol:mb-5 prose-ol:leading-relaxed
- prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:border-neutral-300 dark:prose-blockquote:border-neutral-700 prose-blockquote:p-3 prose-blockquote:rounded-lg prose-blockquote:my-5
- prose-code:bg-neutral-100 dark:prose-code:bg-neutral-800 prose-code:p-1 prose-code:rounded prose-code:text-sm
- prose-pre:p-4 prose-pre:rounded-lg prose-pre:bg-neutral-900 dark:prose-pre:bg-neutral-800"
-      transition:animate="fade"
-    >
+    <time class="text-base text-[#4b5563] dark:text-[#9ca3af] block">
+      撰写于：{formatSimpleDate(pubDate)}
+    </time>
+    <hr class="border-t border-[#e5e7eb] dark:border-[#374151] my-4">
+    <div class="prose prose-neutral dark:prose-invert max-w-none 
+      prose-p:text-[#374151] dark:prose-p:text-[#d1d5db]
+      prose-p:leading-7 
+      prose-headings:text-[#111827] dark:prose-headings:text-[#f8fafc]
+      prose-headings:mt-8 prose-headings:mb-4
+      prose-blockquote:border-l-4 prose-blockquote:border-[#e5e7eb] dark:prose-blockquote:border-[#374151]
+      prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-[#111827] dark:prose-blockquote:text-[#f8fafc]
+      [&_p]:my-3">
       <slot />
     </div>
-
+    
+    <!-- 文章结束分割线 -->
+    <hr class="border-t border-[#e5e7eb] dark:border-[#374151] mt-8 mb-4">
+    
     <!-- 作者信息 -->
-    <footer
-      class="mt-8 border-t border-gray-200 dark:border-gray-800 pt-4 text-sm text-gray-500 dark:text-gray-400"
-      transition:animate="slide"
-    >
-      作者: {SITE_CONFIG.author}
-    </footer>
+    <blockquote class="border-l-4 border-[#e5e7eb] dark:border-[#374151] pl-4 italic text-[#111827] dark:text-[#f8fafc] font-medium mb-4">
+      <p class="m-0">本编文章作者：{SITE_CONFIG.author}</p>
+    </blockquote>
+    
+    <!-- 评论区分割线 -->
+    <hr class="border-t border-[#e5e7eb] dark:border-[#374151] mb-8">
   </article>
 
 {enableComments && <Comment post={post} system="artalk" />}

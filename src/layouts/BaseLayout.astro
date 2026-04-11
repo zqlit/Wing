@@ -8,7 +8,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 <html
   lang="zh-CN"
-  class="transition-colors duration-600 ease-in-out min-h-screen"
+  class="transition-colors duration-300 ease-in-out min-h-screen antialiased"
 >
   <head>
     <script is:inline>
@@ -20,7 +20,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       } else {
         document.documentElement.classList.remove('dark');
       }
-      // 监听astro:after-swap，解决路由跳转二次闪屏
       document.addEventListener('astro:after-swap', () => {
         const savedTheme = localStorage.getItem('theme');
         const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -28,18 +27,32 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         isDark ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
       });
     </script>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title} description={description} pubDate={pubDate} updatedDate={updatedDate} />
+    <slot name="head" />
   </head>
 
-  <body class="bg-white text-slate-900 border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800">
-    <div class="container w-full">
-      <div class="main mx-auto max-w-3xl p-4">
-        <Header />
-        <section transition:animate="fade">
-          <slot />
-        </section>
-        <Footer />
-      </div>
+  <body class="bg-white text-[#111827] dark:bg-[#020617] dark:text-[#f8fafc] font-['Inter',system-ui,-apple-system,sans-serif] text-base">
+    <div class="max-w-2xl mx-auto py-10 px-4 min-h-screen flex flex-col">
+      <Header />
+      <main class="flex-1 mt-5" transition:animate="fade">
+        <slot />
+      </main>
+      <Footer />
     </div>
+    
+    <!-- Service Worker 注册 -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration.scope);
+            })
+            .catch((error) => {
+              console.log('SW registration failed: ', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

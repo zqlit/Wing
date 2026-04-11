@@ -1,0 +1,23 @@
+/* TEAM */
+
+    站长: 小赵同学
+    网站: https://5b2.cn
+    来自: 中国
+    Twitter: 
+    GitHub: https://github.com/zqlit
+    位置: 中国
+
+/* THANKS */
+
+    Astro: https://astro.build
+    Tailwind CSS: https://tailwindcss.com
+    Artalk: https://artalk.js.org
+
+/* SITE */
+
+    语言: 中文 (zh-CN)
+    时区: Asia/Shanghai
+    最后更新: 2025
+    标准: HTML5, CSS3
+    组件: Astro, Tailwind CSS
+    软件: VS Code

@@ -1,5 +1,4 @@
 ---
-import FormattedDate from "./FormattedDate.astro";
 import { formatDateKey } from "../utils/dataFormatte";
 
 interface Props {
@@ -15,26 +14,33 @@ if (!posts) {
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 }
+
+// 格式化日期为 YYYY-MM-DD
+function formatSimpleDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 ---
 
+<div>
 {
   posts.map((post) => {
     const key = formatDateKey(post.data.pubDate);
     return (
-      <li class="list-none pb-3 border-b border-b-gray-200 dark:border-b-slate-800" transition:name={`post-card-${key}`} transition:animate="slide">
+      <article class="border-b border-[#e5e7eb] dark:border-[#374151] pb-2">
         <a href={`/${key}.html`} class="block">
-          <h4 class="title font-bold text-2xl underline decoration-dotted decoration-2 underline-offset-2 pt-8 pb-3" transition:name={`post-title-${key}`}>{post.data.title}</h4>
-          <p class="date text-sm text-gray-500" transition:name={`post-date-${key}`}>
-            <FormattedDate date={post.data.pubDate} />
-          </p>
-          {post.data.description && (
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 italic" transition:name={`post-desc-${key}`}>
-              {post.data.description}
-            </p>
-          )}
+          <h2 class="text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mt-10 mb-2 leading-8">
+            {post.data.title}
+          </h2>
+          <time class="text-sm text-[#6b7280] dark:text-[#9ca3af] block">
+            {formatSimpleDate(post.data.pubDate)}
+          </time>
         </a>
-      </li>
+      </article>
     );
   })
 }
+</div>
 

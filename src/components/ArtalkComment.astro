@@ -7,17 +7,60 @@ interface Props {
 const { pageKey } = Astro.props;
 ---
 
-<div class="text-center mt-8 w-full">
-  <button
-    id="artalk-btn"
-    class="inline-flex items-center gap-1.5 cursor-pointer text-sm px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50/70 text-slate-700 transition-all duration-350 ease-in-out active:scale-95 dark:bg-slate-900/30 dark:text-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900/50"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"></path>
-    </svg>
-    让我看看！都在聊什么
-  </button>
-  <div id="artalk-container" class="mt-4 w-full max-w-none" data-page-key={pageKey}></div>
+<div class="mt-12 w-full" id="artalk-wrapper">
+  <!-- 骨架屏占位 -->
+  <div id="artalk-skeleton" class="w-full space-y-4">
+    <!-- 评论输入框骨架 -->
+    <div class="border border-[#e5e7eb] dark:border-[#374151] rounded-lg p-4">
+      <div class="flex gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#f3f4f6] dark:bg-[#374151] animate-pulse"></div>
+        <div class="flex-1 space-y-2">
+          <div class="h-4 bg-[#f3f4f6] dark:bg-[#374151] rounded w-24 animate-pulse"></div>
+          <div class="h-20 bg-[#f3f4f6] dark:bg-[#374151] rounded animate-pulse"></div>
+          <div class="flex justify-end">
+            <div class="h-8 w-20 bg-[#f3f4f6] dark:bg-[#374151] rounded animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 评论列表骨架 -->
+    <div class="space-y-4">
+      <div class="flex gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#f3f4f6] dark:bg-[#374151] animate-pulse flex-shrink-0"></div>
+        <div class="flex-1 space-y-2">
+          <div class="flex items-center gap-2">
+            <div class="h-4 bg-[#f3f4f6] dark:bg-[#374151] rounded w-20 animate-pulse"></div>
+            <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-16 animate-pulse"></div>
+          </div>
+          <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-full animate-pulse"></div>
+          <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-3/4 animate-pulse"></div>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#f3f4f6] dark:bg-[#374151] animate-pulse flex-shrink-0"></div>
+        <div class="flex-1 space-y-2">
+          <div class="flex items-center gap-2">
+            <div class="h-4 bg-[#f3f4f6] dark:bg-[#374151] rounded w-20 animate-pulse"></div>
+            <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-16 animate-pulse"></div>
+          </div>
+          <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-full animate-pulse"></div>
+          <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-3/4 animate-pulse"></div>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#f3f4f6] dark:bg-[#374151] animate-pulse flex-shrink-0"></div>
+        <div class="flex-1 space-y-2">
+          <div class="flex items-center gap-2">
+            <div class="h-4 bg-[#f3f4f6] dark:bg-[#374151] rounded w-20 animate-pulse"></div>
+            <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-16 animate-pulse"></div>
+          </div>
+          <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-full animate-pulse"></div>
+          <div class="h-3 bg-[#f3f4f6] dark:bg-[#374151] rounded w-3/4 animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="artalk-container" class="w-full max-w-none hidden" data-page-key={pageKey}></div>
 
   <script is:inline define:vars={{ artalkCfg: ARTALK_CONFIG }}>
     // artalkCfg 已由 define:vars 提供
@@ -33,21 +76,28 @@ const { pageKey } = Astro.props;
       }
     };
 
-    // 使用事件委托，避免 View Transitions 下事件丢失
-    document.addEventListener('click', function (e) {
-      const btn = e.target.closest('#artalk-btn');
-      if (!btn) return;
+    // 初始化 Artalk 的函数
+    function initArtalkInstance(el) {
+      const pageKey = el.dataset.pageKey || window.location.pathname;
+      window.Artalk.init({
+        el: el,
+        server: artalkCfg.server,
+        site: artalkCfg.site,
+        pageKey: pageKey,
+        pageTitle: document.title,
+        locale: 'zh-CN',
+      }).setDarkMode(document.documentElement.classList.contains('dark'));
+    }
 
+    // 页面加载后直接初始化评论
+    function initComments() {
       const container = document.getElementById('artalk-container');
+      const skeleton = document.getElementById('artalk-skeleton');
       if (!container) return;
 
       // 检查是否已加载
       if (container.dataset.loaded === 'true') return;
       container.dataset.loaded = 'true';
-
-      btn.style.opacity = '0';
-      btn.style.transform = 'scale(0.92)';
-      btn.style.pointerEvents = 'none';
 
       // 加载样式
       if (!document.querySelector('link[href*="Artalk.css"]')) {
@@ -65,27 +115,24 @@ const { pageKey } = Astro.props;
           // 脚本加载后重新注入覆盖样式
           setTimeout(() => {
             injectArtalkStyles();
-            initArtalk(container);
+            initArtalkInstance(container);
+            // 隐藏骨架屏，显示评论区
+            if (skeleton) skeleton.style.display = 'none';
+            container.classList.remove('hidden');
           }, 50);
         };
         document.body.appendChild(script);
       } else {
         injectArtalkStyles();
-        initArtalk(container);
+        initArtalkInstance(container);
+        // 隐藏骨架屏，显示评论区
+        if (skeleton) skeleton.style.display = 'none';
+        container.classList.remove('hidden');
       }
-
-      function initArtalk(el) {
-        const pageKey = el.dataset.pageKey || window.location.pathname;
-        window.Artalk.init({
-          el: el,
-          server: artalkCfg.server,
-          site: artalkCfg.site,
-          pageKey: pageKey,
-          pageTitle: document.title,
-          locale: 'zh-CN',
-        }).setDarkMode(document.documentElement.classList.contains('dark'));
-      }
-    });
+    }
+    
+    // 立即初始化
+    initComments();
 
     // 监听暗模式变更，同步更新 Artalk
     document.addEventListener('astro:before-swap', function () {
@@ -124,20 +171,58 @@ const { pageKey } = Astro.props;
 
     // 路由切换重置
     document.addEventListener('astro:after-swap', function () {
-      const btn = document.getElementById('artalk-btn');
       const container = document.getElementById('artalk-container');
-
-      if (btn) {
-        btn.style.opacity = '1';
-        btn.style.transform = 'scale(1)';
-        btn.style.pointerEvents = 'auto';
-      }
+      const skeleton = document.getElementById('artalk-skeleton');
 
       if (container) {
         container.innerHTML = '';
+        container.classList.add('hidden');
         delete container.dataset.loaded;
       }
+      
+      // 恢复骨架屏显示
+      if (skeleton) skeleton.style.display = 'block';
+      
+      // 重新初始化评论
+      setTimeout(initComments, 100);
     });
+
+    // 使用 Intersection Observer 实现自动懒加载
+    // 当用户滚动到评论区域时自动预加载 Artalk 资源
+    (function setupLazyLoad() {
+      const wrapper = document.getElementById('artalk-wrapper');
+      if (!wrapper || !('IntersectionObserver' in window)) return;
+
+      let hasPrefetched = false;
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !hasPrefetched) {
+            hasPrefetched = true;
+            // 预加载 Artalk CSS
+            const prefetchCss = document.createElement('link');
+            prefetchCss.rel = 'prefetch';
+            prefetchCss.as = 'style';
+            prefetchCss.href = artalkCfg.cssUrl;
+            document.head.appendChild(prefetchCss);
+            
+            // 预加载 Artalk JS
+            const prefetchJs = document.createElement('link');
+            prefetchJs.rel = 'prefetch';
+            prefetchJs.as = 'script';
+            prefetchJs.href = artalkCfg.jsUrl;
+            document.head.appendChild(prefetchJs);
+            
+            observer.disconnect();
+          }
+        });
+      }, {
+        rootMargin: '200px 0px', // 提前 200px 开始预加载
+        threshold: 0
+      });
+
+      observer.observe(wrapper);
+    })();
   </script>
 </div>
 

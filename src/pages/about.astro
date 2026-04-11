@@ -1,117 +1,23 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import PostLayout from '../layouts/PostLayout.astro';
-import SkillsScroll from '../components/SkillsScroll.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<PostLayout title="关于我" slug="about" pubDate={new Date()} enableComments={false} heroImage={AboutHeroImage}>
-	<!-- 博主信息 -->
-	<section class="about-section">
-		<h2 class="section-title">关于博主</h2>
-		<div class="info-list">
-			<p>00后，湖北襄阳人，性格随和，风趣幽默</p>
-			<p>目前居住在湖北武汉，未来计划定居江苏南京</p>
+<BaseLayout title="关于" description="关于伍比贰博客">
+	<article>
+		<h1 class="text-4xl font-extrabold text-[#111827] dark:text-[#f8fafc] mb-8">关于</h1>
+		<hr class="border-t border-[#e5e7eb] dark:border-[#374151] mb-12">
+		
+		<div class="prose prose-neutral dark:prose-invert max-w-none prose-p:my-5 prose-p:leading-7">
+			<p>这是我的个人博客，用来记录生活琐事、技术学习和一些胡思乱想。</p>
+			<p>博客使用 Astro 构建，部署在 Vercel。主题是自己写的，参考了 ershiliu.com 的极简风格。</p>
+			<p>平时喜欢折腾数码产品，偶尔写点代码，更多时间在发呆。</p>
+			
+			<h2 class="text-xl font-bold text-[#111827] dark:text-[#f8fafc] mt-8 mb-4">联系方式</h2>
+			<ul class="list-disc pl-6 space-y-2">
+				<li>GitHub: <a href="https://github.com/zqlit" target="_blank" class="text-[#111827] dark:text-[#f8fafc] underline">@zqlit</a></li>
+				<li>邮箱: contact@5b2.cn</li>
+				<li>RSS: <a href="/rss.xml" class="text-[#111827] dark:text-[#f8fafc] underline">订阅</a></li>
+			</ul>
 		</div>
-	</section>
-
-	<!-- 博客信息 -->
-	<section class="about-section">
-		<h2 class="section-title">博客简介</h2>
-		<div class="tech-list">
-			<div class="tech-item">
-				<span class="tech-label">博客框架</span>
-				<a href="https://gohugo.io" target="_blank" class="tech-value">Hugo</a>
-			</div>
-			<div class="tech-item">
-				<span class="tech-label">数据存储</span>
-				<a href="https://github.com" target="_blank" class="tech-value">GitHub</a>
-			</div>
-			<div class="tech-item">
-				<span class="tech-label">网站图标</span>
-				<a href="https://remixicon.com" target="_blank" class="tech-value">Remix Icon</a>
-			</div>
-			<div class="tech-item">
-				<span class="tech-label">博客主题</span>
-				<span class="tech-value">自用不开源</span>
-			</div>
-			<div class="tech-item">
-				<span class="tech-label">网站托管</span>
-				<span class="tech-value">多吉云、又拍云（国内）Vercel（境外）</span>
-			</div>
-		</div>
-	</section>
-
-	<SkillsScroll />
-</PostLayout>
-
-<style>
-	.about-section {
-		margin-bottom: 2.5rem;
-	}
-
-	.section-title {
-		font-size: 1rem;
-		font-weight: 600;
-		margin-bottom: 1rem;
-		color: #374151;
-	}
-
-	:global(.dark) .section-title {
-		color: #d1d5db;
-	}
-
-	.info-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.info-list p {
-		color: #6b7280;
-		font-size: 0.875rem;
-		line-height: 1.7;
-	}
-
-	:global(.dark) .info-list p {
-		color: #9ca3af;
-	}
-
-	.tech-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.tech-item {
-		display: flex;
-		align-items: baseline;
-		gap: 1rem;
-		font-size: 0.875rem;
-		line-height: 1.7;
-	}
-
-	.tech-label {
-		min-width: 80px;
-		color: #6b7280;
-	}
-
-	:global(.dark) .tech-label {
-		color: #9ca3af;
-	}
-
-	.tech-value {
-		color: #374151;
-	}
-
-	:global(.dark) .tech-value {
-		color: #d1d5db;
-	}
-
-	.tech-value:hover {
-		color: #2563eb;
-	}
-
-	:global(.dark) .tech-value:hover {
-		color: #60a5fa;
-	}
-</style>
+	</article>
+</BaseLayout>
