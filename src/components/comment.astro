@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import ArtalkComment from "./ArtalkComment.astro";
 import GiscusComment from "./GiscusComment.astro";
+import { COMMENT_CONFIG } from "../config";
 
 interface Props {
   post: any;
@@ -11,9 +12,16 @@ interface Props {
 const { post, system = "artalk" } = Astro.props;
 const path = Astro.url.pathname;
 
+// 如果评论被禁用，不渲染任何内容
+if (!COMMENT_CONFIG.enabled || COMMENT_CONFIG.system === "none") {
+  return null;
+}
+
+// 使用配置中的评论系统
+const activeSystem = COMMENT_CONFIG.enabled ? COMMENT_CONFIG.system : system;
 ---
 
-<div class="card-base mb-4">
-  {system === "artalk" && <ArtalkComment pageKey={path} />}
-  {system === "giscus" && <GiscusComment path={path} />}
+<div class="mt-12">
+  {activeSystem === "artalk" && <ArtalkComment pageKey={path} />}
+  {activeSystem === "giscus" && <GiscusComment path={path} />}
 </div>

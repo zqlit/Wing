@@ -41,5 +41,11 @@ export const NAVIGATION = [
 
 // 分页配置
 export const PAGINATION_CONFIG = {
-  postsPerPage: 6   , // 每页显示的文章数
+  postsPerPage: 6, // 每页显示的文章数
+};
+
+// 评论配置
+export const COMMENT_CONFIG = {
+  enabled: false, // 是否启用评论（true: 启用, false: 禁用）
+  system: "none" as "artalk" | "giscus" | "none", // 评论系统: artalk | giscus | none
 };
