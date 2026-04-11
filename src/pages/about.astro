@@ -4,19 +4,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout title="关于" description="关于伍比贰博客">
 	<article>
-		<h1 class="text-4xl font-extrabold text-[#111827] dark:text-[#f8fafc] mb-8">关于</h1>
-		<hr class="border-t border-[#e5e7eb] dark:border-[#374151] mb-12">
+		<h1 class="text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mb-6">关于</h1>
 		
-		<div class="prose prose-neutral dark:prose-invert max-w-none prose-p:my-5 prose-p:leading-7">
+		<div class="prose prose-neutral dark:prose-invert max-w-none 
+			prose-p:text-[#374151] dark:prose-p:text-[#d1d5db] prose-p:leading-7
+			prose-headings:text-[#111827] dark:prose-headings:text-[#f8fafc]
+			prose-headings:text-lg prose-headings:font-semibold prose-headings:mt-8 prose-headings:mb-4
+			prose-a:text-[#111827] dark:prose-a:text-[#f8fafc] prose-a:underline prose-a:underline-offset-4
+			[&_p]:my-3">
 			<p>这是我的个人博客，用来记录生活琐事、技术学习和一些胡思乱想。</p>
 			<p>博客使用 Astro 构建，部署在 Vercel。主题是自己写的，参考了 ershiliu.com 的极简风格。</p>
 			<p>平时喜欢折腾数码产品，偶尔写点代码，更多时间在发呆。</p>
 			
-			<h2 class="text-xl font-bold text-[#111827] dark:text-[#f8fafc] mt-8 mb-4">联系方式</h2>
-			<ul class="list-disc pl-6 space-y-2">
-				<li>GitHub: <a href="https://github.com/zqlit" target="_blank" class="text-[#111827] dark:text-[#f8fafc] underline">@zqlit</a></li>
+			<h2>联系方式</h2>
+			<ul class="list-disc pl-5 space-y-1.5 text-[#374151] dark:text-[#d1d5db]">
+				<li>GitHub: <a href="https://github.com/zqlit" target="_blank">@zqlit</a></li>
 				<li>邮箱: contact@5b2.cn</li>
-				<li>RSS: <a href="/rss.xml" class="text-[#111827] dark:text-[#f8fafc] underline">订阅</a></li>
+				<li>RSS: <a href="/rss.xml">订阅</a></li>
 			</ul>
 		</div>
 	</article>

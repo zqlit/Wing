@@ -134,14 +134,19 @@ const { pageKey } = Astro.props;
     // 立即初始化
     initComments();
 
-    // 监听暗模式变更，同步更新 Artalk
+    // 页面切换前：销毁 Artalk 实例，避免阻塞 View Transitions
     document.addEventListener('astro:before-swap', function () {
       if (window.Artalk) {
-        setTimeout(() => {
-          const isDark = document.documentElement.classList.contains('dark');
-          window.Artalk.setDarkMode(isDark);
-        }, 50);
+        try { window.Artalk.destroy?.(); } catch(e) {}
       }
+      const container = document.getElementById('artalk-container');
+      const skeleton = document.getElementById('artalk-skeleton');
+      if (container) {
+        container.innerHTML = '';
+        container.classList.add('hidden');
+        delete container.dataset.loaded;
+      }
+      if (skeleton) skeleton.style.display = '';
     });
 
     // 监听主题切换 - 通过 MutationObserver 监听 class 变化
@@ -169,22 +174,12 @@ const { pageKey } = Astro.props;
       }
     });
 
-    // 路由切换重置
+    // 路由切换后：重新初始化评论
     document.addEventListener('astro:after-swap', function () {
-      const container = document.getElementById('artalk-container');
-      const skeleton = document.getElementById('artalk-skeleton');
-
-      if (container) {
-        container.innerHTML = '';
-        container.classList.add('hidden');
-        delete container.dataset.loaded;
+      // 只在文章页面才初始化
+      if (document.getElementById('artalk-container')) {
+        initComments();
       }
-      
-      // 恢复骨架屏显示
-      if (skeleton) skeleton.style.display = 'block';
-      
-      // 重新初始化评论
-      setTimeout(initComments, 100);
     });
 
     // 使用 Intersection Observer 实现自动懒加载

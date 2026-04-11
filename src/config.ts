@@ -3,7 +3,7 @@ const SITE_DESCRIPTION = "记录生活的点点滴滴";
 const AVATAR_URL = "/avatar.jpg?v=2";
 const BEI_AN_CODE = "鄂ICP备2022015735号-2";
 const GITHUB_URL = "https://github.com/zqlit/Wing";
-const BLOGGER_NAME = "小赵同学";
+const BLOGGER_NAME = "道小理";
 
 export const ARTALK_CONFIG = {
   server: "https://artalk.usj.cc",
@@ -41,5 +41,5 @@ export const NAVIGATION = [
 
 // 分页配置
 export const PAGINATION_CONFIG = {
-  postsPerPage: 5   , // 每页显示的文章数
+  postsPerPage: 6   , // 每页显示的文章数
 };

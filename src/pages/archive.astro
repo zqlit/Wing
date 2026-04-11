@@ -24,14 +24,13 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
 
 <BaseLayout title="归档" description="文章归档">
   <article>
-    <h1 class="text-4xl font-extrabold text-[#111827] dark:text-[#f8fafc] mb-8">归档</h1>
-    <hr class="border-t border-[#e5e7eb] dark:border-[#374151] mb-12">
+    <h1 class="text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mb-6">归档</h1>
     
-    <div class="space-y-10">
+    <div class="space-y-8">
       {years.map((year) => (
         <section>
-          <h2 class="text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mb-4">{year}</h2>
-          <div class="space-y-2">
+          <h2 class="text-lg font-semibold text-[#111827] dark:text-[#f8fafc] mb-3">{year}</h2>
+          <div class="space-y-1.5">
             {postsByYear[year].map((post) => {
               const key = formatDateKey(post.data.pubDate);
               const month = String(post.data.pubDate.getMonth() + 1).padStart(2, '0');
@@ -39,9 +38,9 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
               return (
                 <a
                   href={`/${key}.html`}
-                  class="flex items-baseline gap-4 text-[#111827] dark:text-[#f8fafc] hover:opacity-70 transition-opacity"
+                  class="flex items-baseline gap-3 text-[#374151] dark:text-[#d1d5db] hover:text-[#111827] dark:hover:text-[#f8fafc] transition-colors"
                 >
-                  <time class="text-sm text-[#6b7280] dark:text-[#9ca3af] min-w-[44px]">
+                  <time class="text-sm text-[#9ca3af] dark:text-[#64748b] min-w-[40px]">
                     {month}/{day}
                   </time>
                   <span class="text-base">
