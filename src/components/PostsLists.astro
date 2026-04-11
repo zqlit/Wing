@@ -26,12 +26,13 @@ function formatSimpleDate(date: Date): string {
 
 <div>
 {
-  posts.map((post) => {
+  posts.map((post, index) => {
     const key = formatDateKey(post.data.pubDate);
+    const isFirst = index === 0;
     return (
       <article class="border-b border-[#e5e7eb] dark:border-[#374151] pb-2">
         <a href={`/${key}.html`} class="block">
-          <h2 class="text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mt-10 mb-2 leading-8 underline decoration-dotted underline-offset-4">
+          <h2 class={`text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mb-2 leading-8 underline decoration-dotted underline-offset-4 ${isFirst ? 'mt-4' : 'mt-10'}`}>
             {post.data.title}
           </h2>
           <time class="text-sm text-[#6b7280] dark:text-[#9ca3af] block">
