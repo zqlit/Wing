@@ -3,6 +3,7 @@
 // all pages through the use of the <BaseHead /> component.
 import "../styles/global.css";
 import { SITE_CONFIG } from "../config";
+import { ClientRouter } from "astro:transitions";
 
 
 interface Props {
@@ -101,7 +102,7 @@ const allKeywords = [...new Set([...defaultKeywords, ...keywords])];
 {pubDate && <meta name="date" content={pubDate.toISOString()} />}
 {updatedDate && <meta name="last-modified" content={updatedDate.toISOString()} />}
 
-<!-- View Transitions 已禁用以提升性能 -->
+<ClientRouter />
 
 <!-- Open Graph / Facebook - 仅在需要时加载图片 -->
 <meta property="og:type" content={type} />
