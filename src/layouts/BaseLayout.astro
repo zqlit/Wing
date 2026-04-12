@@ -34,23 +34,29 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
   <body class="bg-white text-[#111827] dark:bg-[#020617] dark:text-[#f8fafc] font-['Inter',system-ui,-apple-system,sans-serif] text-base">
     <div class="max-w-2xl mx-auto py-10 px-4 min-h-screen flex flex-col">
       <Header />
-      <main class="flex-1 mt-5" transition:animate="fade">
+      <main class="flex-1 mt-5">
         <slot />
       </main>
       <Footer />
     </div>
     
-    <!-- Service Worker 注册 -->
+    <!-- Service Worker 注册 - 延迟加载避免阻塞 -->
     <script is:inline>
       if ('serviceWorker' in navigator) {
+        // 延迟注册，避免阻塞初始页面加载
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('SW registered: ', registration.scope);
-            })
-            .catch((error) => {
-              console.log('SW registration failed: ', error);
-            });
+          // 使用 requestIdleCallback 在浏览器空闲时注册
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+              navigator.serviceWorker.register('/sw.js')
+                .catch(() => {});
+            }, { timeout: 5000 });
+          } else {
+            setTimeout(() => {
+              navigator.serviceWorker.register('/sw.js')
+                .catch(() => {});
+            }, 3000);
+          }
         });
       }
     </script>
