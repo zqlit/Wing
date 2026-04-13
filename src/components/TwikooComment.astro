@@ -1,0 +1,125 @@
+---
+interface Props {
+  path?: string;
+}
+
+const { path } = Astro.props;
+---
+
+<div id="twikoo-container" class="mt-12 w-full" data-path={path}></div>
+
+<script is:inline>
+  // 动态加载 Twikoo
+  function loadTwikoo() {
+    const container = document.getElementById('twikoo-container');
+    if (!container) return;
+    
+    // 避免重复加载
+    if (container.dataset.loaded === 'true') return;
+    
+    const path = container.dataset.path || window.location.pathname;
+    
+    // 加载 Twikoo JS
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/twikoo@1.6.39/dist/twikoo.all.min.js';
+    script.async = true;
+    script.onload = function() {
+      // 获取当前主题
+      const isDark = document.documentElement.classList.contains('dark');
+      
+      // 初始化 Twikoo
+      window.twikoo.init({
+        envId: 'your-twikoo-env-id', // 请替换为你的环境 ID
+        region: 'ap-guangzhou', // 请替换为你的区域
+        el: '#twikoo-container',
+        path: path,
+        lang: 'zh-CN',
+        // 主题适配
+        onCommentLoaded: function() {
+          applyTwikooTheme();
+        }
+      });
+      
+      container.dataset.loaded = 'true';
+    };
+    document.body.appendChild(script);
+  }
+  
+  // 应用 Twikoo 主题
+  function applyTwikooTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const twikooEl = document.getElementById('twikoo-container');
+    if (!twikooEl) return;
+    
+    // 通过 CSS 变量控制 Twikoo 主题
+    if (isDark) {
+      twikooEl.style.setProperty('--twikoo-bg-color', 'transparent');
+      twikooEl.style.setProperty('--twikoo-text-color', '#f8fafc');
+      twikooEl.style.setProperty('--twikoo-border-color', '#374151');
+    } else {
+      twikooEl.style.setProperty('--twikoo-bg-color', 'transparent');
+      twikooEl.style.setProperty('--twikoo-text-color', '#111827');
+      twikooEl.style.setProperty('--twikoo-border-color', '#e5e7eb');
+    }
+  }
+  
+  // 监听主题变化
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        applyTwikooTheme();
+      }
+    });
+  });
+  
+  // 页面加载完成后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadTwikoo);
+  } else {
+    loadTwikoo();
+  }
+  
+  // 监听主题变化
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+  
+  // Astro 页面切换后重新加载
+  document.addEventListener('astro:after-swap', () => {
+    const container = document.getElementById('twikoo-container');
+    if (container) {
+      container.dataset.loaded = 'false';
+      loadTwikoo();
+    }
+  });
+</script>
+
+<style>
+  /* Twikoo 暗色模式适配 */
+  :global(.dark) #twikoo-container {
+    --twikoo-bg-color: transparent;
+    --twikoo-text-color: #f8fafc;
+    --twikoo-border-color: #374151;
+  }
+  
+  #twikoo-container {
+    --twikoo-bg-color: transparent;
+    --twikoo-text-color: #111827;
+    --twikoo-border-color: #e5e7eb;
+  }
+  
+  /* 覆盖 Twikoo 默认样式 */
+  :global(.tk-comments) {
+    background: var(--twikoo-bg-color) !important;
+  }
+  
+  :global(.tk-comment) {
+    border-color: var(--twikoo-border-color) !important;
+  }
+  
+  :global(.tk-nick),
+  :global(.tk-content) {
+    color: var(--twikoo-text-color) !important;
+  }
+</style>

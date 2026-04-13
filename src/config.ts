@@ -23,6 +23,13 @@ export const GISCUS_CONFIG = {
   lang: "zh-CN",
 };
 
+export const TWIKOO_CONFIG = {
+  envId: "your-twikoo-env-id", // 你的 Twikoo 环境 ID
+  region: "ap-guangzhou", // 腾讯云区域，如 ap-guangzhou
+  lang: "zh-CN",
+  // path 在客户端动态获取
+};
+
 export const SITE_CONFIG = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
@@ -46,6 +53,6 @@ export const PAGINATION_CONFIG = {
 
 // 评论配置
 export const COMMENT_CONFIG = {
-  enabled: true, // 是否启用评论（true: 启用, false: 禁用）
-  system: "artalk", // 评论系统: artalk | giscus | none
+  enabled: false, // 是否启用评论（true: 启用, false: 禁用）
+  system: "none" as "artalk" | "giscus" | "twikoo" | "none", // 评论系统: artalk | giscus | twikoo | none
 };

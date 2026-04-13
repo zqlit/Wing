@@ -2,11 +2,12 @@
 import type { CollectionEntry } from "astro:content";
 import ArtalkComment from "./ArtalkComment.astro";
 import GiscusComment from "./GiscusComment.astro";
+import TwikooComment from "./TwikooComment.astro";
 import { COMMENT_CONFIG } from "../config";
 
 interface Props {
   post: any;
-  system?: "artalk" | "giscus";
+  system?: "artalk" | "giscus" | "twikoo";
 }
 
 const { post, system = "artalk" } = Astro.props;
@@ -24,4 +25,5 @@ const activeSystem = COMMENT_CONFIG.enabled ? COMMENT_CONFIG.system : system;
 <div class="mt-12">
   {activeSystem === "artalk" && <ArtalkComment pageKey={path} />}
   {activeSystem === "giscus" && <GiscusComment path={path} />}
+  {activeSystem === "twikoo" && <TwikooComment path={path} />}
 </div>
