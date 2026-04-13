@@ -32,9 +32,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
   </head>
 
   <body class="bg-white text-[#111827] dark:bg-[#020617] dark:text-[#f8fafc] font-['Inter',system-ui,-apple-system,sans-serif] text-base">
-    <div class="max-w-2xl mx-auto py-10 px-4 min-h-screen flex flex-col">
+    <div class="max-w-2xl mx-auto pb-10 px-4 min-h-screen flex flex-col">
       <Header />
-      <main class="flex-1 mt-5" transition:animate="fade">
+      <main class="flex-1 mt-8" transition:animate="fade">
         <slot />
       </main>
       <Footer />

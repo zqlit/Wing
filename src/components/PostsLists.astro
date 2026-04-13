@@ -24,20 +24,29 @@ function formatSimpleDate(date: Date): string {
 }
 ---
 
-<div>
+<div class="space-y-4">
 {
   posts.map((post, index) => {
     const key = formatDateKey(post.data.pubDate);
-    const isFirst = index === 0;
     return (
-      <article class="border-b border-[#e5e7eb] dark:border-[#374151] pb-2">
-        <a href={`/${key}.html`} class="block">
-          <h2 class={`text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mb-2 leading-8 underline decoration-dotted underline-offset-4 ${isFirst ? 'mt-4' : 'mt-10'}`}>
-            {post.data.title}
-          </h2>
-          <time class="text-sm text-[#6b7280] dark:text-[#9ca3af] block">
-            {formatSimpleDate(post.data.pubDate)}
-          </time>
+      <article class="group">
+        <a 
+          href={`/${key}.html`} 
+          class="block p-5 rounded-2xl bg-white/60 dark:bg-[#0f172a]/60 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-sm hover:shadow-md hover:bg-white/80 dark:hover:bg-[#0f172a]/80 transition-all duration-300"
+        >
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1 min-w-0">
+              <h2 class="text-lg font-medium text-[#111827] dark:text-[#f8fafc] leading-7 group-hover:text-[#2563eb] dark:group-hover:text-[#60a5fa] transition-colors">
+                {post.data.title}
+              </h2>
+              <p class="mt-2 text-sm text-[#6b7280] dark:text-[#9ca3af] line-clamp-2">
+                {post.data.description}
+              </p>
+            </div>
+            <time class="flex-shrink-0 text-xs text-[#9ca3af] dark:text-[#64748b] bg-[#f3f4f6] dark:bg-[#1f2937] px-2 py-1 rounded-full">
+              {formatSimpleDate(post.data.pubDate)}
+            </time>
+          </div>
         </a>
       </article>
     );

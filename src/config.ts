@@ -46,6 +46,6 @@ export const PAGINATION_CONFIG = {
 
 // 评论配置
 export const COMMENT_CONFIG = {
-  enabled: false, // 是否启用评论（true: 启用, false: 禁用）
-  system: "none" as "artalk" | "giscus" | "none", // 评论系统: artalk | giscus | none
+  enabled: true, // 是否启用评论（true: 启用, false: 禁用）
+  system: "artalk", // 评论系统: artalk | giscus | none
 };
