@@ -12,7 +12,6 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   build: {
     format: "file",
-    assets: "_assets",
   },
   vite: {
     plugins: [
