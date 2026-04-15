@@ -5,14 +5,18 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
+import cloudflare from "@astrojs/cloudflare";
+
 export default defineConfig({
   site: "https://5b2.cn",
   output: "static",
   trailingSlash: "never",
   integrations: [mdx(), sitemap()],
+
   build: {
     format: "file",
   },
+
   vite: {
     plugins: [
       //@ts-ignore
@@ -23,4 +27,6 @@ export default defineConfig({
       minify: true,
     },
   },
+
+  adapter: cloudflare()
 });
