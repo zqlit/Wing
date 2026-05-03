@@ -1,0 +1,60 @@
+---
+import BaseHead from "../../../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { ERSHILIU_THEME } from "../config";
+import { SITE_CONFIG } from "../../../config";
+
+const {
+  title = SITE_CONFIG.title,
+  description = SITE_CONFIG.description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  type = "website",
+  keywords = [],
+} = Astro.props;
+---
+
+<html lang="zh-CN" class="min-h-screen antialiased">
+  <head>
+    <script is:inline>
+      !function(){try{var d=document.documentElement,c=d.classList;c.remove('light','dark');var e=localStorage.getItem('theme');if('system'===e||(!e&&true)){var t='(prefers-color-scheme: dark)',m=window.matchMedia(t);if(m.media!==t||m.matches){d.style.colorScheme = 'dark';c.add('dark')}else{d.style.colorScheme = 'light';c.add('light')}}else if(e){c.add(e|| '')}if(e==='light'||e==='dark')d.style.colorScheme=e}catch(e){}}()
+    </script>
+    <BaseHead
+      title={title}
+      description={description}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      type={type}
+      keywords={keywords}
+    />
+    <slot name="head" />
+  </head>
+
+  <body class="antialiased min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50">
+    <div class="max-w-2xl mx-auto py-10 px-4">
+      <Header title={title} />
+      <main>
+        <slot />
+      </main>
+      <Footer />
+    </div>
+
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+              navigator.serviceWorker.register('/sw.js').catch(() => {});
+            }, { timeout: 5000 });
+          } else {
+            setTimeout(() => {
+              navigator.serviceWorker.register('/sw.js').catch(() => {});
+            }, 3000);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

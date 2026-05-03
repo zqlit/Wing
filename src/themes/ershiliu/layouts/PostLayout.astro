@@ -1,0 +1,24 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { formatISODate } from "../../../utils/dataFormatte";
+
+interface Props {
+  title: string;
+  description?: string;
+  pubDate: Date | string;
+  updatedDate?: Date | string;
+}
+
+const { title, description, pubDate, updatedDate } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} pubDate={pubDate} updatedDate={updatedDate}>
+  <article class="py-6 prose dark:prose-invert">
+    <h2 class="mb-2">{title}</h2>
+    <time dateTime={formatISODate(pubDate)} class="text-gray-600 dark:text-gray-400">
+      撰写于：{formatISODate(pubDate)}
+    </time>
+    <hr class="my-4" />
+    <slot />
+  </article>
+</BaseLayout>

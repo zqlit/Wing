@@ -1,49 +1,15 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-const links = [
-  {
-    name: "GitHub",
-    url: "https://github.com"
-  },
-  {
-    name: "Astro",
-    url: "https://astro.build"
-  },
-  {
-    name: "Hugo",
-    url: "https://gohugo.io"
-  },
-  {
-    name: "Vercel",
-    url: "https://vercel.com"
-  },
-];
+import BaseLayout from "../themes/ershiliu/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="友链" description="友情链接">
+<BaseLayout title="友链 - 小赵">
   <article>
-    <h1 class="text-2xl font-bold text-[#111827] dark:text-[#f8fafc] mb-6">友链</h1>
-    
-    <div class="prose prose-neutral dark:prose-invert max-w-none 
-      prose-p:text-[#374151] dark:prose-p:text-[#d1d5db] prose-p:leading-7
-      prose-headings:text-[#111827] dark:prose-headings:text-[#f8fafc]
-      prose-headings:text-lg prose-headings:font-semibold prose-headings:mt-8 prose-headings:mb-4
-      prose-a:text-[#111827] dark:prose-a:text-[#f8fafc] prose-a:underline prose-a:underline-offset-4
-      [&_p]:my-3">
-      <p>一些常去的网站和朋友的博客。</p>
-      
-      <ul class="list-disc pl-5 space-y-1.5 text-[#374151] dark:text-[#d1d5db]">
-        {links.map((link) => (
-          <li>
-            <a href={link.url} target="_blank" rel="noopener noreferrer">
-              {link.name}
-            </a>
-          </li>
-        ))}
-      </ul>
-      
-      <p>想交换友链的朋友，可以发邮件给我。</p>
+    <h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-50 mb-8">
+      友链
+    </h1>
+    <div class="prose dark:prose-invert max-w-none">
+      <p>友情链接。</p>
+      <p>如果你想交换友链，欢迎联系。</p>
     </div>
   </article>
 </BaseLayout>

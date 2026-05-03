@@ -1,64 +1,10 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
+import ErshiliuBaseLayout from "../themes/ershiliu/layouts/BaseLayout.astro";
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const props = Astro.props;
 ---
 
-<html
-  lang="zh-CN"
-  class="transition-colors duration-300 ease-in-out min-h-screen antialiased"
->
-  <head>
-    <script is:inline>
-      const savedTheme = localStorage.getItem('theme');
-      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isDark = savedTheme ? savedTheme === 'dark' : isSystemDark;
-      if(isDark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      document.addEventListener('astro:after-swap', () => {
-        const savedTheme = localStorage.getItem('theme');
-        const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDark = savedTheme ? savedTheme === 'dark' : isSystemDark;
-        isDark ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
-      });
-    </script>
-    <BaseHead title={title} description={description} pubDate={pubDate} updatedDate={updatedDate} />
-    <slot name="head" />
-  </head>
-
-  <body class="bg-white text-[#111827] dark:bg-[#020617] dark:text-[#f8fafc] font-['Inter',system-ui,-apple-system,sans-serif] text-base">
-    <div class="max-w-2xl mx-auto pb-10 px-4 min-h-screen flex flex-col">
-      <Header />
-      <main class="flex-1 mt-8" transition:animate="fade">
-        <slot />
-      </main>
-      <Footer />
-    </div>
-    
-    <!-- Service Worker 注册 - 延迟加载避免阻塞 -->
-    <script is:inline>
-      if ('serviceWorker' in navigator) {
-        // 延迟注册，避免阻塞初始页面加载
-        window.addEventListener('load', () => {
-          // 使用 requestIdleCallback 在浏览器空闲时注册
-          if ('requestIdleCallback' in window) {
-            requestIdleCallback(() => {
-              navigator.serviceWorker.register('/sw.js')
-                .catch(() => {});
-            }, { timeout: 5000 });
-          } else {
-            setTimeout(() => {
-              navigator.serviceWorker.register('/sw.js')
-                .catch(() => {});
-            }, 3000);
-          }
-        });
-      }
-    </script>
-  </body>
-</html>
+<ErshiliuBaseLayout {...props}>
+  <slot name="head" slot="head" />
+  <slot />
+</ErshiliuBaseLayout>

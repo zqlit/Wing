@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import { formatISODate } from "../../../utils/dataFormatte";
+
+interface Props {
+  posts?: any[];
+}
+
+let { posts } = Astro.props;
+
+if (!posts) {
+  posts = (await getCollection("blog")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+}
+---
+
+<div>
+  {posts.map((post) => (
+    <article class="pb-2 border-b border-gray-200 dark:border-gray-700">
+      <a href={`/posts/${post.id}`}>
+        <h2 class="mb-2 hover:text-blue-600 transition-colors">{post.data.title}</h2>
+      </a>
+      <time datetime={new Date(post.data.pubDate).toISOString()} class="text-sm text-gray-500 dark:text-gray-400">
+        {formatISODate(post.data.pubDate)}
+      </time>
+    </article>
+  ))}
+</div>

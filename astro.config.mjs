@@ -10,17 +10,10 @@ export default defineConfig({
   output: "static",
   trailingSlash: "never",
   integrations: [mdx(), sitemap()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   build: {
     format: "file",
-  },
-  vite: {
-    plugins: [
-      //@ts-ignore
-      tailwindcss()
-    ],
-    build: {
-      cssMinify: true,
-      minify: true,
-    },
   },
 });

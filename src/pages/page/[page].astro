@@ -4,17 +4,14 @@ import PostsLists from "../../components/PostsLists.astro";
 import { getCollection } from "astro:content";
 import { PAGINATION_CONFIG } from "../../config";
 
-// 获取所有文章
 const allPosts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-// 分页配置
 const POSTS_PER_PAGE = PAGINATION_CONFIG.postsPerPage;
 const { page } = Astro.params;
 const currentPage = parseInt(page || "1");
 
-// 验证页码
 if (currentPage < 1 || isNaN(currentPage)) {
   return Astro.redirect("/");
 }
@@ -28,12 +25,11 @@ if (currentPage > totalPages) {
 const start = (currentPage - 1) * POSTS_PER_PAGE;
 const posts = allPosts.slice(start, start + POSTS_PER_PAGE);
 
-// 生成静态页面
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
   const POSTS_PER_PAGE = PAGINATION_CONFIG.postsPerPage;
   const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
-  
+
   return Array.from({ length: totalPages - 1 }, (_, i) => ({
     params: { page: String(i + 2) }
   }));
@@ -41,27 +37,24 @@ export async function getStaticPaths() {
 ---
 
 <BaseLayout>
-  <main>
-    <PostsLists posts={posts} />
-    
-    {/* 分页导航 */}
-    <nav class="flex items-center justify-center gap-6 mt-12">
-      {Array.from({ length: totalPages }, (_, i) => {
-        const pageNum = i + 1;
-        const isActive = pageNum === currentPage;
-        return (
-          <a
-            href={pageNum === 1 ? '/' : `/page/${pageNum}`}
-            class={`text-sm font-medium ${
-              isActive
-                ? 'text-[#111827] dark:text-[#f8fafc]'
-                : 'text-[#6b7280] dark:text-[#9ca3af] hover:text-[#111827] dark:hover:text-[#f8fafc]'
-            }`}
-          >
-            {pageNum}
-          </a>
-        );
-      })}
-    </nav>
-  </main>
+  <PostsLists posts={posts} />
+
+  <nav class="flex items-center justify-center gap-6 mt-12">
+    {Array.from({ length: totalPages }, (_, i) => {
+      const pageNum = i + 1;
+      const isActive = pageNum === currentPage;
+      return (
+        <a
+          href={pageNum === 1 ? '/' : `/page/${pageNum}`}
+          class={`text-sm font-medium transition-colors hover:text-blue-600 ${
+            isActive
+              ? 'text-slate-900 dark:text-slate-50'
+              : 'text-gray-500 dark:text-gray-400'
+          }`}
+        >
+          {pageNum}
+        </a>
+      );
+    })}
+  </nav>
 </BaseLayout>
